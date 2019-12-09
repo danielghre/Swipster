@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Berlin Sans FB Regular.ttf">
+            <string>BerlinSansFB-Reg</string>
+        </array>
+        <array key="ITCAvantGardePro-Bk.ttf">
+            <string>ITCAvantGardePro-Bk</string>
+        </array>
+        <array key="ITCAvantGardePro-Bold.otf">
+            <string>ITCAvantGardePro-Bold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Location View Controller-->
+        <scene sceneID="k8C-y0-wk9">
+            <objects>
+                <viewController storyboardIdentifier="LocationViewController" id="8sS-6H-0a3" customClass="LocationViewController" customModule="Swipster" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Po4-jw-IVM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mainBackground" translatesAutoresizingMaskIntoConstraints="NO" id="Cp4-KF-fBB">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location-permission" translatesAutoresizingMaskIntoConstraints="NO" id="DcL-MH-PgA">
+                                <rect key="frame" x="21" y="160" width="333" height="333"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="333" id="2j5-wc-dPw"/>
+                                    <constraint firstAttribute="height" constant="333" id="Mad-xn-WQ4"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DCB-BR-Jcw">
+                                <rect key="frame" x="32" y="678" width="311" height="60"/>
+                                <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="I9y-0A-cUA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="BerlinSansFB-Reg" family="Berlin Sans FB" pointSize="17"/>
+                                <state key="normal" title="OUVRIR LES RÉGLAGES">
+                                    <color key="titleColor" red="0.74901960779999999" green="0.15686274510000001" blue="0.51764705879999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="allowButton:" destination="8sS-6H-0a3" eventType="touchUpInside" id="D57-Af-dr2"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Votre Localisation Est Requise" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="4pN-sT-xQj">
+                                <rect key="frame" x="32" y="536" width="311" height="23"/>
+                                <fontDescription key="fontDescription" name="ITCAvantGardePro-Bold" family="ITC Avant Garde Gothic Pro" pointSize="23"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="200" verticalCompressionResistancePriority="1000" text="Pour pouvoir utliser Swipster, vous devez activer votre localisation." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TSz-y5-REG">
+                                <rect key="frame" x="32" y="567" width="311" height="32"/>
+                                <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="16"/>
+                                <color key="textColor" red="0.81568627449999997" green="0.81568627449999997" blue="0.81568627449999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4pN-sT-xQj" firstAttribute="leading" secondItem="uzz-oo-Rpt" secondAttribute="leading" constant="32" id="0mR-a1-uoC"/>
+                            <constraint firstItem="4pN-sT-xQj" firstAttribute="top" secondItem="DcL-MH-PgA" secondAttribute="bottom" constant="43" id="62m-d5-bVb"/>
+                            <constraint firstItem="uzz-oo-Rpt" firstAttribute="bottom" secondItem="DCB-BR-Jcw" secondAttribute="bottom" constant="40" id="6V6-5q-Iqb"/>
+                            <constraint firstItem="TSz-y5-REG" firstAttribute="top" secondItem="4pN-sT-xQj" secondAttribute="bottom" constant="8" id="BNY-Wv-mi8"/>
+                            <constraint firstItem="Cp4-KF-fBB" firstAttribute="trailing" secondItem="uzz-oo-Rpt" secondAttribute="trailing" id="ELw-Nq-ojP"/>
+                            <constraint firstItem="DCB-BR-Jcw" firstAttribute="top" secondItem="TSz-y5-REG" secondAttribute="bottom" constant="79" id="I3L-U3-Cia"/>
+                            <constraint firstItem="TSz-y5-REG" firstAttribute="leading" secondItem="uzz-oo-Rpt" secondAttribute="leading" constant="32" id="L6t-Tl-eBb"/>
+                            <constraint firstItem="Cp4-KF-fBB" firstAttribute="leading" secondItem="uzz-oo-Rpt" secondAttribute="leading" id="Lfn-Z8-I02"/>
+                            <constraint firstItem="uzz-oo-Rpt" firstAttribute="trailing" secondItem="4pN-sT-xQj" secondAttribute="trailing" constant="32" id="Rtk-Ux-liX"/>
+                            <constraint firstItem="uzz-oo-Rpt" firstAttribute="trailing" secondItem="TSz-y5-REG" secondAttribute="trailing" constant="32" id="YJ5-9s-Kqh"/>
+                            <constraint firstItem="Cp4-KF-fBB" firstAttribute="top" secondItem="Po4-jw-IVM" secondAttribute="top" id="Zp2-pG-a7v"/>
+                            <constraint firstItem="DCB-BR-Jcw" firstAttribute="leading" secondItem="uzz-oo-Rpt" secondAttribute="leading" constant="32" id="gOf-nd-Fm7"/>
+                            <constraint firstItem="DCB-BR-Jcw" firstAttribute="top" secondItem="TSz-y5-REG" secondAttribute="bottom" constant="79" id="l0t-9T-3pG"/>
+                            <constraint firstItem="TSz-y5-REG" firstAttribute="top" secondItem="4pN-sT-xQj" secondAttribute="bottom" constant="8" id="mdP-ju-LJS"/>
+                            <constraint firstItem="DcL-MH-PgA" firstAttribute="centerX" secondItem="Po4-jw-IVM" secondAttribute="centerX" id="sWO-zm-q3C"/>
+                            <constraint firstAttribute="bottom" secondItem="Cp4-KF-fBB" secondAttribute="bottom" id="tTA-TM-773"/>
+                            <constraint firstItem="uzz-oo-Rpt" firstAttribute="trailing" secondItem="DCB-BR-Jcw" secondAttribute="trailing" constant="32" id="w01-F8-FXS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="uzz-oo-Rpt"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hR6-c2-xAY" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4645.6000000000004" y="1749.7536945812808"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="location-permission" width="793" height="788"/>
+        <image name="mainBackground" width="1125" height="2436"/>
+    </resources>
+</document>

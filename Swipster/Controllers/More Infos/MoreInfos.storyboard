@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Bellota-Regular.otf">
+            <string>Bellota-Regular</string>
+        </array>
+        <array key="ITCAvantGardePro-Bk.ttf">
+            <string>ITCAvantGardePro-Bk</string>
+        </array>
+        <array key="ITCAvantGardePro-Bold.otf">
+            <string>ITCAvantGardePro-Bold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--More Infos View Controller-->
+        <scene sceneID="WSO-3s-z8G">
+            <objects>
+                <viewController storyboardIdentifier="moreInfos" id="Ino-yX-DFM" customClass="MoreInfosViewController" customModule="Swipster" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FTk-ll-ekg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xe5-PU-dCJ">
+                                <rect key="frame" x="16" y="100" width="158" height="0.0"/>
+                                <fontDescription key="fontDescription" name="ITCAvantGardePro-Bold" family="ITC Avant Garde Gothic Pro" pointSize="27"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOL-L8-rgH">
+                                <rect key="frame" x="92.666666666666686" y="183" width="190" height="190"/>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="49"/>
+                                <state key="normal" title="+">
+                                    <color key="titleColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="selectProfilPic:" destination="Ino-yX-DFM" eventType="touchUpInside" id="I5G-4t-AMY"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mKB-8v-iWL">
+                                <rect key="frame" x="92.666666666666686" y="183" width="190" height="190"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="190" id="jxt-P6-W6Z"/>
+                                    <constraint firstAttribute="height" constant="190" id="pmJ-r2-9ZY"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vous êtes :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="KWc-uN-xJr">
+                                <rect key="frame" x="16" y="477" width="90" height="17"/>
+                                <fontDescription key="fontDescription" name="ITCAvantGardePro-Bold" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a7Q-69-yYL" customClass="MXSegmentedControl" customModule="MXSegmentedControl">
+                                <rect key="frame" x="16" y="502" width="343" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="eXE-zk-yjQ"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="selectedTextColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="indicatorHeight">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="indicatorRight">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="indicatorLeft">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e43-Tb-QEj">
+                                <rect key="frame" x="72" y="596" width="231" height="54"/>
+                                <color key="backgroundColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="231" id="5Hu-cp-G9H"/>
+                                    <constraint firstAttribute="height" constant="54" id="Cic-2F-pzJ"/>
+                                </constraints>
+                                <state key="normal" title="Je m'inscris !">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginButtonPressed:" destination="Ino-yX-DFM" eventType="touchUpInside" id="iDm-wa-Gbo"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date de naissance" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JuS-AO-YdS" customClass="SwipsterTextField" customModule="Swipster" customModuleProvider="target">
+                                <rect key="frame" x="72" y="398" width="231" height="55"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="sqC-Qt-o7T"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" editable="NO" text="Nous avons besoin d'en savoir un peu plus sur vous afin de vous présenter les meilleures profils dans les alentours !" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6k-Ca-nx9">
+                                <rect key="frame" x="16" y="104" width="343" height="64"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" name="Bellota-Regular" family="Bellota" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f2B-Dp-UY6">
+                                <rect key="frame" x="335" y="52" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="76j-W6-7ZW"/>
+                                    <constraint firstAttribute="width" constant="40" id="EfJ-5g-PZS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="tintColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" image="Close"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="bOL-L8-rgH" firstAttribute="trailing" secondItem="mKB-8v-iWL" secondAttribute="trailing" id="3de-g5-0LU"/>
+                            <constraint firstItem="bOL-L8-rgH" firstAttribute="top" secondItem="mKB-8v-iWL" secondAttribute="top" id="LcV-XX-iF3"/>
+                            <constraint firstItem="mKB-8v-iWL" firstAttribute="top" secondItem="M6k-Ca-nx9" secondAttribute="bottom" constant="15" id="Ldh-qD-NXh"/>
+                            <constraint firstItem="M6k-Ca-nx9" firstAttribute="top" secondItem="xe5-PU-dCJ" secondAttribute="bottom" constant="4" id="MhW-Qo-dcL"/>
+                            <constraint firstItem="a7Q-69-yYL" firstAttribute="top" secondItem="KWc-uN-xJr" secondAttribute="bottom" constant="8" id="Mzi-Qd-j5w"/>
+                            <constraint firstItem="bOL-L8-rgH" firstAttribute="centerX" secondItem="mKB-8v-iWL" secondAttribute="centerX" id="Qpx-si-t72"/>
+                            <constraint firstItem="f2B-Dp-UY6" firstAttribute="trailing" secondItem="tvQ-hr-aTE" secondAttribute="trailing" id="TKS-pk-Y9m"/>
+                            <constraint firstItem="mKB-8v-iWL" firstAttribute="centerX" secondItem="FTk-ll-ekg" secondAttribute="centerX" id="UsD-8N-mhi"/>
+                            <constraint firstItem="KWc-uN-xJr" firstAttribute="leading" secondItem="tvQ-hr-aTE" secondAttribute="leading" constant="16" id="VJQ-Wq-QRq"/>
+                            <constraint firstItem="JuS-AO-YdS" firstAttribute="top" secondItem="mKB-8v-iWL" secondAttribute="bottom" constant="25" id="WFH-yS-qfR"/>
+                            <constraint firstItem="tvQ-hr-aTE" firstAttribute="trailing" secondItem="xe5-PU-dCJ" secondAttribute="trailing" constant="201" id="Wa9-ZV-5eC"/>
+                            <constraint firstItem="f2B-Dp-UY6" firstAttribute="top" secondItem="tvQ-hr-aTE" secondAttribute="top" constant="8" id="Y57-UD-Cyy"/>
+                            <constraint firstItem="JuS-AO-YdS" firstAttribute="leading" secondItem="tvQ-hr-aTE" secondAttribute="leading" constant="72" id="Yd4-Ie-8u0"/>
+                            <constraint firstItem="e43-Tb-QEj" firstAttribute="top" secondItem="a7Q-69-yYL" secondAttribute="bottom" constant="30" id="iCE-XN-ih1"/>
+                            <constraint firstItem="xe5-PU-dCJ" firstAttribute="top" secondItem="f2B-Dp-UY6" secondAttribute="bottom" constant="8" id="mpq-Qd-rnt"/>
+                            <constraint firstItem="a7Q-69-yYL" firstAttribute="leading" secondItem="tvQ-hr-aTE" secondAttribute="leading" constant="16" id="msq-dO-c3G"/>
+                            <constraint firstItem="a7Q-69-yYL" firstAttribute="top" secondItem="JuS-AO-YdS" secondAttribute="bottom" constant="49" id="oV0-1X-o4Y"/>
+                            <constraint firstItem="xe5-PU-dCJ" firstAttribute="leading" secondItem="tvQ-hr-aTE" secondAttribute="leading" constant="16" id="q3e-aA-QBY"/>
+                            <constraint firstItem="M6k-Ca-nx9" firstAttribute="leading" secondItem="tvQ-hr-aTE" secondAttribute="leading" constant="16" id="sfC-rw-JNo"/>
+                            <constraint firstItem="tvQ-hr-aTE" firstAttribute="trailing" secondItem="M6k-Ca-nx9" secondAttribute="trailing" constant="16" id="t81-Rk-wOx"/>
+                            <constraint firstItem="tvQ-hr-aTE" firstAttribute="trailing" secondItem="JuS-AO-YdS" secondAttribute="trailing" constant="72" id="tXL-L2-Xru"/>
+                            <constraint firstItem="e43-Tb-QEj" firstAttribute="centerX" secondItem="FTk-ll-ekg" secondAttribute="centerX" id="uib-dW-bWY"/>
+                            <constraint firstItem="mKB-8v-iWL" firstAttribute="top" secondItem="xe5-PU-dCJ" secondAttribute="bottom" constant="83" id="vC7-pb-Ff3"/>
+                            <constraint firstItem="bOL-L8-rgH" firstAttribute="bottom" secondItem="mKB-8v-iWL" secondAttribute="bottom" id="wCv-Hb-mR9"/>
+                            <constraint firstItem="a7Q-69-yYL" firstAttribute="trailing" secondItem="tvQ-hr-aTE" secondAttribute="trailing" constant="-16" id="wGE-AT-d4B"/>
+                            <constraint firstItem="tvQ-hr-aTE" firstAttribute="trailing" secondItem="KWc-uN-xJr" secondAttribute="trailing" constant="269" id="zLh-XY-gW9"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tvQ-hr-aTE"/>
+                    </view>
+                    <connections>
+                        <outlet property="backButton" destination="f2B-Dp-UY6" id="uv7-Pv-B3E"/>
+                        <outlet property="changeGenderView" destination="a7Q-69-yYL" id="IfK-BT-eIx"/>
+                        <outlet property="changeImageButton" destination="bOL-L8-rgH" id="Mp8-Xu-rNw"/>
+                        <outlet property="datePickerTextField" destination="JuS-AO-YdS" id="2Yr-c4-Shz"/>
+                        <outlet property="imageViewSelector" destination="mKB-8v-iWL" id="W7a-sv-Wkd"/>
+                        <outlet property="loginButton" destination="e43-Tb-QEj" id="luT-ga-rDm"/>
+                        <outlet property="nameTitle" destination="xe5-PU-dCJ" id="gOi-3H-QgW"/>
+                        <outlet property="textView" destination="M6k-Ca-nx9" id="pgi-s3-ZEz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WTL-IM-hNv" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="138.40000000000001" y="129.31034482758622"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Close" width="15.5" height="15.5"/>
+    </resources>
+</document>
