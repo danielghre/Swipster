@@ -61,6 +61,7 @@
 		7E55360B220CFDAB0074E912 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E553600220CFDAB0074E912 /* UserCell.swift */; };
 		7E55360C220CFDAB0074E912 /* EmojiOptionsOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E553601220CFDAB0074E912 /* EmojiOptionsOverlay.swift */; };
 		7E55360D220CFDAB0074E912 /* FlexibleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E553602220CFDAB0074E912 /* FlexibleTextView.swift */; };
+		7E7A466723DF3241000309E7 /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7A466623DF3241000309E7 /* AppUpdater.swift */; };
 		7E97A6DA219DECB700AE336D /* BerlinSansFB-DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E97A6D9219DEC5C00AE336D /* BerlinSansFB-DemiBold.ttf */; };
 		7ED86C5421C2CF7B0006CC2D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED86C5321C2CF7B0006CC2D /* StoreKit.framework */; };
 		7EFE410A2346516F0069CF96 /* RangeUISlider in Frameworks */ = {isa = PBXBuildFile; productRef = 7EFE41092346516F0069CF96 /* RangeUISlider */; };
@@ -124,6 +125,7 @@
 		7E553600220CFDAB0074E912 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserCell.swift; path = Views/UserCell.swift; sourceTree = "<group>"; };
 		7E553601220CFDAB0074E912 /* EmojiOptionsOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EmojiOptionsOverlay.swift; path = Views/EmojiOptionsOverlay.swift; sourceTree = "<group>"; };
 		7E553602220CFDAB0074E912 /* FlexibleTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlexibleTextView.swift; path = Views/FlexibleTextView.swift; sourceTree = "<group>"; };
+		7E7A466623DF3241000309E7 /* AppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppUpdater.swift; path = Helpers/AppUpdater.swift; sourceTree = "<group>"; };
 		7E97550020AF49CE00DDC35A /* Swipster.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Swipster.entitlements; sourceTree = "<group>"; };
 		7E97A6D9219DEC5C00AE336D /* BerlinSansFB-DemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BerlinSansFB-DemiBold.ttf"; path = "fonts/BerlinSansFB-DemiBold.ttf"; sourceTree = "<group>"; };
 		7E9FCBFA207172610083808B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
@@ -170,7 +172,6 @@
 				7E5535C9220CFCC70074E912 /* SettingsTableViewController.swift */,
 				7E5535C8220CFCC70074E912 /* MessagesController.swift */,
 				7E5535CA220CFCC70074E912 /* ChatLogController.swift */,
-				7E24C0EE2396C58300697CB3 /* FirebaseManager.swift */,
 				7E5535E0220CFD220074E912 /* Premium */,
 				7E5535DC220CFD0C0074E912 /* Location */,
 				7E5535DF220CFD1D0074E912 /* Profil */,
@@ -288,6 +289,8 @@
 				7E430909220CFE7200B42704 /* Extensions.swift */,
 				7E43090A220CFE7200B42704 /* IAPService.swift */,
 				7E43090C220CFE7200B42704 /* Utils.swift */,
+				7E24C0EE2396C58300697CB3 /* FirebaseManager.swift */,
+				7E7A466623DF3241000309E7 /* AppUpdater.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 				7E5535EA220CFD490074E912 /* PremiumViewController.swift in Sources */,
 				7E43090E220CFE7200B42704 /* Extensions.swift in Sources */,
 				7E55360C220CFDAB0074E912 /* EmojiOptionsOverlay.swift in Sources */,
+				7E7A466723DF3241000309E7 /* AppUpdater.swift in Sources */,
 				7E430915220CFE8C00B42704 /* User.swift in Sources */,
 				7E43091B220CFEC800B42704 /* SlideFromLeft.swift in Sources */,
 				7E24C0EF2396C58300697CB3 /* FirebaseManager.swift in Sources */,
@@ -688,7 +692,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Swipster/Swipster.entitlements;
-				CURRENT_PROJECT_VERSION = 2552;
+				CURRENT_PROJECT_VERSION = 2553;
 				DEVELOPMENT_TEAM = TH94ESK4DM;
 				INFOPLIST_FILE = "$(SRCROOT)/Swipster/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -696,7 +700,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -804,7 +808,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Swipster/Swipster.entitlements;
-				CURRENT_PROJECT_VERSION = 2552;
+				CURRENT_PROJECT_VERSION = 2553;
 				DEVELOPMENT_TEAM = TH94ESK4DM;
 				INFOPLIST_FILE = "$(SRCROOT)/Swipster/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -812,7 +816,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -943,7 +947,7 @@
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.10.1;
+				minimumVersion = 6.0.0;
 			};
 		};
 		7EFE41082346516F0069CF96 /* XCRemoteSwiftPackageReference "RangeUISlider" */ = {

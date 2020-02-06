@@ -22,15 +22,15 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         }
     }
     
-    var messages = [Message]()
+    lazy var messages = [Message]()
     var my: User!
-    let profileImageView = UIImageView()
+    lazy var profileImageView = UIImageView()
     let cellId = "cellId"
     let nameButton =  UIButton(type: .custom)
-    let imagePickerController = UIImagePickerController()
+    lazy var imagePickerController = UIImagePickerController()
     var shouldManageSendButtonEnabledState = true
     let ref = Database.database().reference()
-    let profilImageLoader = UIActivityIndicatorView()
+    lazy var profilImageLoader = UIActivityIndicatorView()
     
     deinit {
         print("OS Reclaiming memory for chat")

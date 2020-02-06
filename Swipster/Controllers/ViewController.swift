@@ -148,8 +148,9 @@ class ViewController: UIViewController {
                 guard let dict = child.value as? [String: Any] else { return }
 
                 let user = User(dictionary: dict)
-                
+
                 if user.first_name == "" {
+                    print("\(child.key) missing first name")
                     query.child(child.key).removeValue()
                 }
 
@@ -157,28 +158,28 @@ class ViewController: UIViewController {
                     print("\(child.key) missing min age")
                     query.child(child.key).updateChildValues(["minAge":"18"])
                 }
-                
+
                 if user.maxAge == "" {
                     print("\(child.key) missing max age")
                     query.child(child.key).updateChildValues(["maxAge":"18"])
                 }
-                
+
                 if user.lookingFor == "" {
                     print("\(child.key) missing looking for")
                     let values = user.gender == "male" ? ["lookingFor":"female"] : ["lookingFor":"male"]
                     query.child(child.key).updateChildValues(values)
                 }
-                
+
                 if user.pictureURL == "" {
                    print("\(child.key) missing pic url")
                     query.child(child.key).updateChildValues(["pictureURL":"https://graph.facebook.com/\(user.uid)/picture?height=500&?width=500"])
                 }
-                
+
                 if user.lookingDist == "" {
                     print("\(child.key) missing looking dist")
                     query.child(child.key).updateChildValues(["lookingDistance":"26"])
                 }
-                
+
                 if user.active == "" {
                     print("\(child.key) missing active")
                     query.child(child.key).updateChildValues(["public":"true"])

@@ -20,9 +20,9 @@ import CropViewController
 
 class MenuViewController: UIViewController, CLLocationManagerDelegate {
     
-    var locationManager = CLLocationManager()
+    lazy var locationManager = CLLocationManager()
     var user: User?
-    let imagePickerController = UIImagePickerController()
+    lazy var imagePickerController = UIImagePickerController()
     let uid = Auth.auth().currentUser?.uid
     let ref = Database.database().reference()
     

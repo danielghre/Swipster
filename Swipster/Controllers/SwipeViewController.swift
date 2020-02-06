@@ -23,11 +23,11 @@ class SwipeViewController: UIViewController  {
     
     var locationManager = CLLocationManager()
     
-    var cards = [CardsView]()
+    lazy var cards = [CardsView]()
 
     var choice: choiceDone?
     
-    let matchView = MatchView()
+    lazy var matchView = MatchView()
     
     var emojiOptionsOverlay: EmojiOptionsOverlay!
     let cardAttributes: [(downscale: CGFloat, alpha: CGFloat)] = [(1, 1), (0.92, 0.8), (0.84, 0.6), (0.76, 0.4)]
@@ -36,14 +36,13 @@ class SwipeViewController: UIViewController  {
     let ref = Database.database().reference()
     let uid = Auth.auth().currentUser?.uid
     
-    let loadingPulse = LoadingPulse()
+    lazy var loadingPulse = LoadingPulse()
     
-    var nativeAds = [GADUnifiedNativeAd]()
+    @IBOutlet private weak var bannerView: GADBannerView!
+    lazy var nativeAds = [GADUnifiedNativeAd]()
     var adLoader: GADAdLoader!
     
     var user: User?
-    
-    @IBOutlet private weak var bannerView: GADBannerView!
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? MenuViewController {
@@ -52,7 +51,7 @@ class SwipeViewController: UIViewController  {
     }
     
     func goMessagesAndResetBadge(){
-        self.chatBarButton.image = #imageLiteral(resourceName: "chat")
+        chatBarButton.image = #imageLiteral(resourceName: "chat")
         performSegue(withIdentifier: "swipeFromRight", sender: self)
     }
     
@@ -266,7 +265,6 @@ class SwipeViewController: UIViewController  {
                                         let card = ImageCard(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 70, height: self.view.frame.height * 0.52))
                                         self.cards.append(card)
                                         (self.cards[i] as! ImageCard).user = user
-
                                         (self.cards[i] as! ImageCard).user?.parentUID = child.key
                                         (self.cards[i] as! ImageCard).reportButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleReportTouched)))
                                         if (i == 0) {
@@ -557,9 +555,9 @@ class SwipeViewController: UIViewController  {
         }
         showNextCard()
         hideFrontCard()
-        if cards[0] is ImageCard {
-            print((cards[0] as! ImageCard).user?.parentUID ?? "not found")
-        }
+//        if cards[0] is ImageCard {
+//            print((cards[0] as! ImageCard).user?.parentUID ?? "not found")
+//        }
         add()
     }
     
@@ -776,42 +774,35 @@ extension SwipeViewController: CLLocationManagerDelegate {
         switch status {
         case .restricted, .denied:
             loadingPulse.stopPulse()
-            let storyBoard : UIStoryboard = UIStoryboard(name: "Location", bundle:nil)
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Location", bundle: nil)
             let nextViewController = storyBoard.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
             nextViewController.modalPresentationStyle = .fullScreen
             present(nextViewController, animated: true)
             break
 
         case .authorizedWhenInUse, .authorizedAlways:
+            settingsPerso()
             let latitude: CLLocationDegrees = (locationManager.location?.coordinate.latitude)!
             let longitude: CLLocationDegrees = (locationManager.location?.coordinate.longitude)!
-            let location = CLLocation(latitude: latitude, longitude: longitude)
-            CLGeocoder().reverseGeocodeLocation(location, completionHandler: { [weak self] (placemarks, error) -> Void in
+            let usersReference = ref.child("users")
+            usersReference.keepSynced(true)
+            usersReference.child(self.uid!).observeSingleEvent(of: .value) { [weak self] (snapshot) in
                 guard let self = self else { return }
-                if error != nil {
-                    return
+                guard let dict = snapshot.value as? [String: Any] else { return }
+                let me = User(dictionary: dict)
+                if me.isPremium != true {
+                    let values = ["latitude": String(latitude), "longitude": String(longitude)]
+                    usersReference.child(self.uid!).updateChildValues(values, withCompletionBlock: { (err, ref)  in
+                        if err != nil {
+                            return
+                        }
+//                            self.settingsPerso()
+                    })
+                } else {
+//                        self.settingsPerso()
                 }
-                let usersReference = self.ref.child("users")
-                usersReference.keepSynced(true)
-                usersReference.child(self.uid!).observeSingleEvent(of: .value) { [weak self] (snapshot) in
-                    guard let self = self else { return }
-                    guard let dict = snapshot.value as? [String: Any] else { return }
-                    let me = User(dictionary: dict)
-                    if me.isPremium != true {
-                        let values = ["latitude": String(latitude), "longitude": String(longitude)]
-                        usersReference.child(self.uid!).updateChildValues(values, withCompletionBlock: { (err, ref)  in
-                            if error != nil {
-                                return
-                            }
-                            self.settingsPerso()
-                        })
-                    } else {
-                        self.settingsPerso()
-                    }
-                }
-            })
+            }
             break
-
         case .notDetermined:
             break
         @unknown default:

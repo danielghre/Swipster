@@ -36,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         
         registerForPushNotifications()
         
+        AppUpdater.shared.showUpdate(withConfirmation: true)
+        
         return true
     }
     
@@ -115,12 +117,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let timestamp = Int(Date().timeIntervalSince1970)
-        let values = ["lastLoginDate" : timestamp]
-        Database.database().reference().child("users").child(uid).updateChildValues(values) { (err, snapshot) in
-            if err != nil {
-                print("something went wrong")
+        if UserDefaults.standard.bool(forKey: "active") {
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            let timestamp = Int(Date().timeIntervalSince1970)
+            let values = ["lastLoginDate" : timestamp]
+            Database.database().reference().child("users").child(uid).updateChildValues(values) { (err, snapshot) in
+                if err != nil {
+                    print("something went wrong")
+                }
             }
         }
     }

@@ -10,7 +10,7 @@ import UIKit
 
 class LoadingPulse {
     
-    var pulseArray = [CAShapeLayer]()
+    lazy var pulseArray = [CAShapeLayer]()
     
     func animatePulsatingLayerAt(index:Int) {
         pulseArray[index].strokeColor = UIColor(white: 1, alpha: 0.4).cgColor

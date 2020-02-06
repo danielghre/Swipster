@@ -31,7 +31,7 @@ class ImageCard: CardView, CardsView {
         return label
     }()
     
-    let iconsContainerView: UIView = {
+    lazy var iconsContainerView: UIView = {
         let containerView = UIView()
         containerView.layer.shadowColor = UIColor(white: 0.4, alpha: 0.4).cgColor
         containerView.layer.shadowRadius = 8
@@ -41,7 +41,7 @@ class ImageCard: CardView, CardsView {
         return containerView
     }()
     
-    let activityIndicator: UIActivityIndicatorView = {
+    lazy var activityIndicator: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView()
         activity.color = .white
         activity.style = .whiteLarge
@@ -50,7 +50,7 @@ class ImageCard: CardView, CardsView {
         return activity
     }()
     
-    let bioTextView: UITextView = {
+    lazy var bioTextView: UITextView = {
         let tv = UITextView()
         tv.font = UIFont(name: "ITCAvantGardePro-Bk", size: 13)
         tv.backgroundColor = .clear
@@ -60,7 +60,7 @@ class ImageCard: CardView, CardsView {
         return tv
     }()
     
-    let bioButton: UIButton = {
+    lazy var bioButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitleColor(.white, for: .normal)
         button.setTitle("i", for: .normal)
@@ -92,7 +92,7 @@ class ImageCard: CardView, CardsView {
         return label
     }()
     
-    let scrollView: UIScrollView = {
+    lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.isPagingEnabled = true
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -102,7 +102,7 @@ class ImageCard: CardView, CardsView {
         return sv
     }()
     
-    let pageControl: UIPageControl = {
+    lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.tintColor = .clear
         pc.pageIndicatorTintColor = .black
@@ -232,7 +232,6 @@ class ImageCard: CardView, CardsView {
             }
         }
     }
-    
     
     @objc func handleBioTouched(gesture: UITapGestureRecognizer){
         if !isBioOpen {

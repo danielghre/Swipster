@@ -38,8 +38,8 @@ class MessagesController: UITableViewController {
     
     let cellId = "cellId"
     var timer: Timer?
-    var messages = [Message]()
-    var messagesDictionary = [String: Message]()
+    lazy var messages = [Message]()
+    lazy var messagesDictionary = [String: Message]()
     var fetchingMore = false
     var lastFetchUserId: String?
     
@@ -105,7 +105,7 @@ class MessagesController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return "Supprimer le match"
     }
-    
+
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -129,7 +129,7 @@ class MessagesController: UITableViewController {
     }
     
     func alertViewPerformForDelete(indexPath: IndexPath){
-        showCenterAlertView(title: "Etes-vous sûr(e) ?", message: "Vous ne pourrez plus vous envoyer de messages..", okButton: "OUI", cancelButton: "NON") {
+        showCenterAlertView(title: "Supprimer l'affinité", message: "Vous ne pourrez plus vous envoyer de messages..", okButton: "OUI", cancelButton: "NON") {
             SwiftEntryKit.dismiss()
             showLoadingView(text: "Suppression du match...")
             guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -186,9 +186,9 @@ class MessagesController: UITableViewController {
                                         return
                                     }
                                 })
-                                
+
                             }
-                        }else {
+                        } else {
                             messagesReference.child(child.key).removeValue(completionBlock: { (error, ref) in
                                 if error != nil {
                                     print("Failed to delete message:", error!)
@@ -262,12 +262,12 @@ class MessagesController: UITableViewController {
         messages.sort(by: { (message1, message2) -> Bool in
             return message1.timestamp > message2.timestamp
         })
-        
+
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if messages.count == 0 {
@@ -279,7 +279,7 @@ class MessagesController: UITableViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
-        
+
         if !fetchingMore {
             if offsetY > contentHeight - scrollView.frame.height {
                 beginBatchFetch()
@@ -291,7 +291,7 @@ class MessagesController: UITableViewController {
         fetchingMore = true
         fetchUserMessages()
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! UserCell
@@ -303,7 +303,7 @@ class MessagesController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let message = messages[indexPath.row]

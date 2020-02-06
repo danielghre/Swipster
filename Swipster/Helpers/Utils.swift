@@ -111,16 +111,21 @@ func report(user: User, fromUID: String, fromName: String, isMatch: Bool, comple
         })
     }
     
-    let otherStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(light: .darkGray, dark: .white))
-    let closeButtonLabel = EKProperty.LabelContent(text: "AUTRE", style: otherStyle)
-    let closeButton = EKProperty.ButtonContent(label: closeButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.darkGray.withAlphaComponent(0.05))) {
+    let otherButtonLabel = EKProperty.LabelContent(text: "AUTRE", style: labelStyle)
+    let otherButton = EKProperty.ButtonContent(label: otherButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.cancelRed.withAlphaComponent(0.05))) {
         showLoadingView(text: "Envoi en cours...")
         sendEmail(subject: subject, text: "AUTRE", user: user, fromUID: fromUID, fromName: fromName, completion: {
             completion()
         })
     }
     
-    let buttonsBarContent = EKProperty.ButtonBarContent(with: spamButton, picsButton, ageButton, closeButton, separatorColor: EKColor(UIColor.lightGray), expandAnimatedly: true)
+    let otherStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(light: .darkGray, dark: .white))
+    let closeButtonLabel = EKProperty.LabelContent(text: "ANNULER", style: otherStyle)
+    let closeButton = EKProperty.ButtonContent(label: closeButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.white.withAlphaComponent(0.05))) {
+        SwiftEntryKit.dismiss(.all)
+    }
+    
+    let buttonsBarContent = EKProperty.ButtonBarContent(with: spamButton, picsButton, ageButton, otherButton, closeButton, separatorColor: EKColor(UIColor.lightGray), expandAnimatedly: true)
     
     let alertMessage = EKAlertMessage(simpleMessage: simpleMessage, buttonBarContent: buttonsBarContent)
     

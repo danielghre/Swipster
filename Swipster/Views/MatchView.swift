@@ -20,6 +20,7 @@ class MatchView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
+        print("init")
     }
     
     required init?(coder aDecoder: NSCoder) {
