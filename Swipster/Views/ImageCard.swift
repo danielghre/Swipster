@@ -14,10 +14,14 @@ class ImageCard: CardView, CardsView {
     
     var isBioOpen = false
     var defaultPic = UIImage()
+    var didSet = false
     
     var user: User? {
         didSet {
-            layoutUserDetails()
+            if !didSet {
+                layoutUserDetails()
+            }
+            
         }
     }
     
@@ -113,6 +117,7 @@ class ImageCard: CardView, CardsView {
     }()
     
     func layoutUserDetails(){
+        didSet = true
         var imgA = [UIImage]()
         ImageService.getImage(withURL: URL(string: user!.pictureURL)) { [weak self] (image) in
             guard let self = self else { return }
@@ -164,6 +169,7 @@ class ImageCard: CardView, CardsView {
     }
     
     func setupImages(_ imgArray: [UIImage]) {
+
         var imageWidth, imageHeight: CGFloat
         
         if scrollView.frame.width != 0 || scrollView.frame.height != 0 {

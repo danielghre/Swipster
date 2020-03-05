@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FBSDKLoginKit
+import FacebookLogin
 import CoreLocation
 import Firebase
 import FirebaseDatabase
@@ -36,7 +36,7 @@ class SwipeViewController: UIViewController  {
     let ref = Database.database().reference()
     let uid = Auth.auth().currentUser?.uid
     
-    lazy var loadingPulse = LoadingPulse()
+    lazy var pulseLayer = PulseLayer()
     
     @IBOutlet private weak var bannerView: GADBannerView!
     lazy var nativeAds = [GADUnifiedNativeAd]()
@@ -74,10 +74,10 @@ class SwipeViewController: UIViewController  {
                 self.activatePublicButton.isHidden = true
                 self.errorTitle.isHidden = true
                 self.errorText.isHidden = true
-                self.loadingPulse.createPulse(view: self.view)
+                self.pulseLayer.animate()
                 self.user?.active = "true"
                 self.showCards()
-            }else {
+            } else {
                 showPopupMessage(title: "Impossible..", buttonTitle: "Compris !", description: "Une erreur est survenu, veuillez réessayer plus tard !", image: #imageLiteral(resourceName: "ic_error_all_light_48pt")) {
                     SwiftEntryKit.dismiss()
                 }
@@ -99,6 +99,7 @@ class SwipeViewController: UIViewController  {
         choice = .cheers
         choiceByButton()
         sender.pulsate()
+
     }
     
     @IBOutlet private weak var hotImageView: UIButton!
@@ -107,6 +108,10 @@ class SwipeViewController: UIViewController  {
         choice = .hot
         choiceByButton()
         sender.pulsate()
+//        let storyboard = UIStoryboard(name: "Premium", bundle: nil)
+//        let vc = storyboard.instantiateViewController(withIdentifier: "premium")
+//        self.present(vc, animated: true, completion: nil)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,8 +130,6 @@ class SwipeViewController: UIViewController  {
         addNavbarImage()
         
         saveUserToLocal()
-
-        loadingPulse.createPulse(view: view)
         
         emojiOptionsOverlay = EmojiOptionsOverlay(frame: view.frame)
         view.addSubview(emojiOptionsOverlay)
@@ -146,7 +149,8 @@ class SwipeViewController: UIViewController  {
     
     func configureNativeAd() {
         if !hideAds() {
-            let adUnitID = "ca-app-pub-6971741950795531/9849969479"
+//            let adUnitID = "ca-app-pub-3940256099942544/8407707713"
+            let adUnitID = "ca-app-pub-6971741950795531/9849969479" // live
             let numAdsToLoad = 1
             let options = GADMultipleAdsAdLoaderOptions()
             options.numberOfAds = numAdsToLoad
@@ -168,7 +172,7 @@ class SwipeViewController: UIViewController  {
     }
 
     @IBOutlet private weak var navBar: UINavigationBar!
-    func addNavbarImage(){
+    func addNavbarImage() {
         
         let image = #imageLiteral(resourceName: "icon")
         let size = CGSize(width: 30, height: 30)
@@ -178,12 +182,7 @@ class SwipeViewController: UIViewController  {
     }
     
     func settingsPerso() {
-        if user != nil {
-            view.isUserInteractionEnabled = true
-            return
-        }
         let usersReference = ref.child("users")
-        usersReference.keepSynced(true)
         usersReference.observeSingleEvent(of: .value) { [weak self] (snapshot) in
             guard let self = self else { return }
             if snapshot.hasChild(self.uid!) {
@@ -191,13 +190,16 @@ class SwipeViewController: UIViewController  {
                 self.ref.child("users").child(self.uid!).observeSingleEvent(of: .value) { [weak self] (snapshot) in
                     guard let self = self else { return }
                     guard let dict = snapshot.value as? [String: Any] else { return }
-                    let me = User(dictionary: dict)
+                    var me = User(dictionary: dict)
                     self.view.isUserInteractionEnabled = true
+                    me.seenArray = dict["seen"] as? [String: String]
                     if me.first_name != "" {
                         self.user = me
                         ImageService.getImage(withURL: URL(string: me.pictureURL)) { (image) in }
                         self.user?.parentUID = self.uid
-                        self.showCards()
+                        if me.position != nil {
+                            self.showCards()
+                        }
                         if me.purchased == true {
                             self.bannerView.isHidden = true
                             let save = UserDefaults.standard
@@ -228,9 +230,9 @@ class SwipeViewController: UIViewController  {
         }
     }
     
-    func showCards(){
+    func showCards() {
         if user?.active == "false" {
-            loadingPulse.stopPulse()
+            pulseLayer.stop()
             errorTitle.text = "Votre profil est masqué"
             let attributedString = NSMutableAttributedString(string: "Activez la fonction publique pour découvrir les profils autour de vous !")
             let paragraphStyle = NSMutableParagraphStyle()
@@ -242,48 +244,36 @@ class SwipeViewController: UIViewController  {
             errorText.isHidden = false
             activatePublicButton.isHidden = false
         } else {
-            errorTitle.isHidden = true
-            errorText.isHidden = true
-            activatePublicButton.isHidden = true
             let query = ref.child("users")
-//            query.keepSynced(true)
+            query.keepSynced(true)
             query.observeSingleEvent(of: .value) { [weak self] (snapshot) in
                 guard let self = self else { return }
-                var i = 0
                 for child in snapshot.children.allObjects as! [DataSnapshot] {
-                    if child.key != self.uid {
-                        self.ref.child("users").child(self.uid!).child("seen").child(child.key).observeSingleEvent(of: .value) { (snapshot) in
-                            if !(snapshot.exists()) {
-                                guard let dict = child.value as? [String: Any] else { return }
-                                let user = User(dictionary: dict)
-                                if user.active == "true" && user.position != nil {
-                                    let distanceInMeters = self.user?.position?.distance(from: (user.position)!)
-                                    let distanceInKms = distanceInMeters!/1000
-                                    let age = calcAge(birthday: user.birthday)
-                                    let distance = Double(self.user!.lookingDist)!
-                                    if (self.user?.uid != user.uid && (user.gender == (self.user!.lookingFor) || (self.user!.lookingFor) == "both") && distanceInKms <= distance && age <= Int(self.user!.maxAge)! && age >= Int(self.user!.minAge)!) {
-                                        let card = ImageCard(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 70, height: self.view.frame.height * 0.52))
-                                        self.cards.append(card)
-                                        (self.cards[i] as! ImageCard).user = user
-                                        (self.cards[i] as! ImageCard).user?.parentUID = child.key
-                                        (self.cards[i] as! ImageCard).reportButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleReportTouched)))
-                                        if (i == 0) {
-                                            self.loadingPulse.stopPulse()
-                                            self.hideButtons(state: false)
-                                        }
-                                        self.layoutCards()
-                                        i += 1
-                                        if self.cards.count > 5 {
-                                            self.configureNativeAd()
-                                        }
-                                    }
+                    if child.key != self.uid && !(self.user?.seenArray?[child.key] != nil) {
+                        guard let dict = child.value as? [String: Any] else { return }
+                        let user = User(dictionary: dict)
+                        if user.active == "true" && user.position != nil && self.user?.position != nil {
+                            let distanceInMeters = self.user?.position?.distance(from: (user.position)!)
+                            let distanceInKms = distanceInMeters!/1000
+                            let age = calcAge(birthday: user.birthday)
+                            let distance = Double(self.user!.lookingDist)!
+                            
+                            if (self.user?.uid != user.uid && (user.gender == (self.user!.lookingFor) || (self.user!.lookingFor) == "both") && distanceInKms <= distance && age <= Int(self.user!.maxAge)! && age >= Int(self.user!.minAge)!) {
+                                let card = ImageCard(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 70, height: self.view.frame.height * 0.49))
+                                card.user = user
+                                card.user?.parentUID = child.key
+                                card.reportButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleReportTouched)))
+                                self.cards.append(card)
+                                self.layoutCards()
+                                if self.cards.count > 5 {
+                                    self.configureNativeAd()
                                 }
                             }
                         }
                     }
                 }
-                if (i == 0) {
-                    self.showNextCard()
+                if (self.cards.count == 0) {
+                    self.pulseLayer.stop()
                     self.hideButtons(state: true)
                 }
             }
@@ -305,9 +295,17 @@ class SwipeViewController: UIViewController  {
         add()
     }
     
+    deinit {
+        print("deinit from swipe")
+    }
+    
     func layoutCards() {
         let firstCard = cards[0] as! UIView
         view.addSubview(firstCard)
+        hideButtons(state: false)
+        if pulseLayer.isAnimating {
+            pulseLayer.stop()
+        }
         firstCard.layer.zPosition = CGFloat(cards.count)
         firstCard.center = view.center
         firstCard.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handleCardPan)))
@@ -344,66 +342,65 @@ class SwipeViewController: UIViewController  {
     }
     
     func showNextCard() {
+        if cards.count <= 1 {
+            pulseLayer.stop()
+            self.hideButtons(state: true)
+            return
+        }
         let animationDuration: TimeInterval = 0.2
-        if ((cards.count - 1) == 0 || (cards.count - 1) == -1) {
-            loadingPulse.stopPulse()
-            hideButtons(state: true)
-        } else {
-            hideButtons(state: false)
-            for i in 1...3 {
-                    if i > (cards.count - 1) { continue }
-                    let card = cards[i] as! UIView
-                    let newDownscale = cardAttributes[i - 1].downscale
-                    let newAlpha = cardAttributes[i - 1].alpha
-                    UIView.animate(withDuration: animationDuration, delay: (TimeInterval(i - 1) * (animationDuration / 2)), usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
-                        card.transform = CGAffineTransform(scaleX: newDownscale, y: newDownscale)
-                        card.alpha = newAlpha
-                        if i == 1 {
-                            if hideAds() {
-                                card.center = CGPoint(x: self.view.center.x, y: self.view.center.y + 15)
-                            } else {
-                                card.center = self.view.center
-                            }
-                        } else {
-                            card.center.x = self.view.center.x
-                            card.frame.origin.y = (self.cards[1] as! UIView).frame.origin.y - (CGFloat(i - 1) * self.cardInteritemSpacing)
-                        }
-                    }, completion: { [weak self] (_) in
-                        if i == 1 {
-                            guard let self = self else { return }
-                            card.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handleCardPan)))
-                        }
-                    })
-                }
-                // add a new card (now the 4th card in the deck) to the very back
-                if 4 > (cards.count - 1) {
-                    if cards.count != 1 {
-                        view.bringSubviewToFront(cards[1] as! UIView)
+        for i in 1...3 {
+            if i > (cards.count - 1) { continue }
+            let card = cards[i] as! UIView
+            let newDownscale = cardAttributes[i - 1].downscale
+            let newAlpha = cardAttributes[i - 1].alpha
+            UIView.animate(withDuration: animationDuration, delay: (TimeInterval(i - 1) * (animationDuration / 2)), usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
+                card.transform = CGAffineTransform(scaleX: newDownscale, y: newDownscale)
+                card.alpha = newAlpha
+                if i == 1 {
+                    if hideAds() {
+                        card.center = CGPoint(x: self.view.center.x, y: self.view.center.y + 15)
+                    } else {
+                        card.center = self.view.center
                     }
-                    return
+                } else {
+                    card.center.x = self.view.center.x
+                    card.frame.origin.y = (self.cards[1] as! UIView).frame.origin.y - (CGFloat(i - 1) * self.cardInteritemSpacing)
                 }
-                let newCard = cards[4] as! UIView
-                newCard.layer.zPosition = CGFloat(cards.count - 4)
-                let downscale = cardAttributes[3].downscale
-                let alpha = cardAttributes[3].alpha
-                
-                // initial state of new card
-                newCard.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-                newCard.alpha = 0
-                newCard.center.x = view.center.x
-                newCard.frame.origin.y = (cards[1] as! UIView).frame.origin.y - (4 * cardInteritemSpacing)
-                view.addSubview(newCard)
-                
-                // animate to end state of new card
-                UIView.animate(withDuration: animationDuration, delay: (3 * (animationDuration / 2)), usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
-                    newCard.transform = CGAffineTransform(scaleX: downscale, y: downscale)
-                    newCard.alpha = alpha
-                    newCard.center.x = self.view.center.x
-                    newCard.frame.origin.y = (self.cards[1] as! UIView).frame.origin.y - (3 * self.cardInteritemSpacing) + 1.5
-                })
-                // first card needs to be in the front for proper interactivity
+            }, completion: { [weak self] (_) in
+                if i == 1 {
+                    guard let self = self else { return }
+                    card.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handleCardPan)))
+                }
+            })
+        }
+        // add a new card (now the 4th card in the deck) to the very back
+        if 4 > (cards.count - 1) {
+            if cards.count != 1 {
                 view.bringSubviewToFront(cards[1] as! UIView)
             }
+            return
+        }
+        let newCard = cards[4] as! UIView
+        newCard.layer.zPosition = CGFloat(cards.count - 4)
+        let downscale = cardAttributes[3].downscale
+        let alpha = cardAttributes[3].alpha
+        
+        // initial state of new card
+        newCard.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        newCard.alpha = 0
+        newCard.center.x = view.center.x
+        newCard.frame.origin.y = (cards[1] as! UIView).frame.origin.y - (4 * cardInteritemSpacing)
+        view.addSubview(newCard)
+        
+        // animate to end state of new card
+        UIView.animate(withDuration: animationDuration, delay: (3 * (animationDuration / 2)), usingSpringWithDamping: 0.8, initialSpringVelocity: 0.0, options: [], animations: {
+            newCard.transform = CGAffineTransform(scaleX: downscale, y: downscale)
+            newCard.alpha = alpha
+            newCard.center.x = self.view.center.x
+            newCard.frame.origin.y = (self.cards[1] as! UIView).frame.origin.y - (3 * self.cardInteritemSpacing) + 1.5
+        })
+        // first card needs to be in the front for proper interactivity
+        view.bringSubviewToFront(cards[1] as! UIView)
     }
     
     /// This function continuously checks to see if the card's center is on the screen anymore. If it finds that the card's center is not on screen, then it triggers removeOldFrontCard() which removes the front card from the data structure and from the view.
@@ -555,9 +552,9 @@ class SwipeViewController: UIViewController  {
         }
         showNextCard()
         hideFrontCard()
-//        if cards[0] is ImageCard {
-//            print((cards[0] as! ImageCard).user?.parentUID ?? "not found")
-//        }
+        if cards[0] is ImageCard {
+            print((cards[0] as! ImageCard).user?.parentUID ?? "not found")
+        }
         add()
     }
     
@@ -740,20 +737,21 @@ class SwipeViewController: UIViewController  {
         emojiOptionsOverlay.hideFaceEmojis()
     }
     
-    func hideButtons(state: Bool){
+    func hideButtons(state: Bool) {
         errorTitle.isHidden = !state
         errorTitle.text = "Oops..."
         errorText.isHidden = !state
         errorText.text = "Il n'y a personne autour de vous.\n\nModifiez vos paramètres..."
         bannerView.translatesAutoresizingMaskIntoConstraints = false
-        if state == true {
+        if state == false {
+            bannerView.bottomAnchor.constraint(equalTo: buttonView.topAnchor, constant: -8).isActive = true
+        } else if state == true && cards.count <= 1 {
+            bannerView.bottomAnchor.constraint(equalTo: buttonView.topAnchor, constant: -8).isActive = false
             if #available(iOS 11.0, *) {
                 bannerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
             } else {
                 bannerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
             }
-        }else {
-            bannerView.bottomAnchor.constraint(equalTo: buttonView.topAnchor, constant: -8).isActive = true
         }
         buttonView.isHidden = state
     }
@@ -763,8 +761,14 @@ extension SwipeViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager,
                          didChangeAuthorization status: CLAuthorizationStatus) {
+        
         view.isUserInteractionEnabled = false
-        if AppDelegate().isAppAlreadyLaunchedOnce() == false {
+        pulseLayer.position = view.center
+        pulseLayer.radius = view.frame.width / 2 - 30
+        view.layer.addSublayer(pulseLayer)
+        pulseLayer.animate()
+        
+        if isAppAlreadyLaunchedOnce() == false {
             let storyboard = UIStoryboard(name: "Onboarding", bundle: nil)
             if let walkthroughViewController = storyboard.instantiateViewController(withIdentifier: "WalkthroughViewController") as? WalkthroughViewController {
                 present(walkthroughViewController, animated: true)
@@ -773,19 +777,23 @@ extension SwipeViewController: CLLocationManagerDelegate {
         }
         switch status {
         case .restricted, .denied:
-            loadingPulse.stopPulse()
-            let storyBoard : UIStoryboard = UIStoryboard(name: "Location", bundle: nil)
+            pulseLayer.stop()
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Location", bundle:nil)
             let nextViewController = storyBoard.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
             nextViewController.modalPresentationStyle = .fullScreen
             present(nextViewController, animated: true)
             break
 
         case .authorizedWhenInUse, .authorizedAlways:
-            settingsPerso()
+            if user == nil {
+                settingsPerso()
+            } else {
+                view.isUserInteractionEnabled = true
+                return
+            }
             let latitude: CLLocationDegrees = (locationManager.location?.coordinate.latitude)!
             let longitude: CLLocationDegrees = (locationManager.location?.coordinate.longitude)!
             let usersReference = ref.child("users")
-            usersReference.keepSynced(true)
             usersReference.child(self.uid!).observeSingleEvent(of: .value) { [weak self] (snapshot) in
                 guard let self = self else { return }
                 guard let dict = snapshot.value as? [String: Any] else { return }
@@ -796,10 +804,15 @@ extension SwipeViewController: CLLocationManagerDelegate {
                         if err != nil {
                             return
                         }
-//                            self.settingsPerso()
+                        self.user?.latitude = String(latitude)
+                        self.user?.longitude = String(longitude)
+                        self.user?.position = CLLocation(latitude: latitude, longitude: longitude)
+                        if self.cards.isEmpty {
+                            self.settingsPerso()
+                        }
                     })
                 } else {
-//                        self.settingsPerso()
+//                    self.settingsPerso()
                 }
             }
             break
@@ -824,5 +837,3 @@ extension SwipeViewController: GADUnifiedNativeAdLoaderDelegate {
         print("did fail \(error)")
     }
 }
-
-

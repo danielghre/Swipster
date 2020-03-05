@@ -19,7 +19,7 @@ import MXSegmentedControl
 import SwiftEntryKit
 
 
-class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate{
+class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, UIAdaptivePresentationControllerDelegate {
     
     var user: User?
     
@@ -38,6 +38,11 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
                 return
             }
         })
+    }
+    
+    
+    @IBAction func dismissView(_ sender: Any) {
+        dismiss(animated: true)
     }
     
     @IBOutlet private weak var ageLabel: UILabel!
@@ -63,14 +68,14 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     }
 
     @objc func share(recognizer: UITapGestureRecognizer) {
-        let activityVC = UIActivityViewController(activityItems: ["Découvrez Swipster... Evitez les pertes de temps, matchez uniquement selon vos envies ! https://swipster.io"], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: ["Découvrez Swipster... Pour un soir ou pour la vie, nous répondons à toutes vos envies ! 😍 🍻 🔥 https://swipster.io"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = view
         present(activityVC, animated: true)
     }
     
     func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map{ _ in letters.randomElement()! })
+      let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+      return String((0..<length).map{ _ in letters.randomElement()! })
     }
     
     func configureMailController() -> MFMailComposeViewController {
@@ -108,26 +113,18 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         
         showCenterAlertView(title: "Déjà ! 😢", message: message, okButton: "Déconnexion", cancelButton: "Annuler") { [weak self] in
             logoutUser {
+                self?.navigationController?.viewControllers.removeAll()
                 let storyboard = UIStoryboard(name: "LoginScreen", bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "welcomeView")
-                vc.modalPresentationStyle = .fullScreen
-                self!.present(vc, animated: false, completion: {
-                    SwiftEntryKit.dismiss(.displayed)
-                })
+                UIApplication.shared.keyWindow?.setRootViewController(vc, options: .init(direction: .toBottom, style: .linear))
+                SwiftEntryKit.dismiss(.displayed)
             }
-//            weak var pvc = self.presentingViewController
-//
-//            self.dismiss(animated: true) {
-//                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//                let vc = storyboard.instantiateViewController(withIdentifier: "welcomeView") as! ViewController
-//                pvc?.present(vc, animated: true, completion: nil)
-//            }
         }
     }
     
     @objc func deleteAccount(recognizer: UITapGestureRecognizer) {
         var message = "En supprimant votre compte, vous perdrez votre profil, vos messages, vos photos, ainsi que vos matchs. Cette action est irréversible.\n\nÊtes-vous "
-                
+        
         message = user?.gender == "male" ? message + "sûr ?" : message + "sûre ?"
         
         showCenterAlertView(title: "Vraiment 😭", message: message, okButton: "OUI", cancelButton: "NON") { [weak self] in
@@ -202,11 +199,13 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         })
         
         Auth.auth().currentUser?.delete(completion: { [weak self] (err) in
+            self?.navigationController?.viewControllers.removeAll()
             let storyBoard: UIStoryboard = UIStoryboard(name: "LoginScreen", bundle: nil)
             let vc = storyBoard.instantiateViewController(withIdentifier: "welcomeView") as! ViewController
             vc.modalPresentationStyle = .fullScreen
-            self?.present(vc, animated: true, completion: {
-                SwiftEntryKit.dismiss(.all)
+            UIApplication.shared.keyWindow?.setRootViewController(vc, options: .init(direction: .toBottom, style: .linear))
+            SwiftEntryKit.dismiss(.all)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
                 showPopupMessage(title: "Compte supprimé avec succès", buttonTitle: "J'ai compris", description: "", image: #imageLiteral(resourceName: "ic_done_all_light_48pt")) {
                     SwiftEntryKit.dismiss(.all)
                 }
@@ -308,7 +307,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     @objc func showRemoveAds() {
         if user?.purchased != true {
             IAPService.shared.purshase(product: .nonConsumable)
-        }else {
+        } else {
             showPopupMessage(title: "Merci !", buttonTitle: "Compris !", description: "Vous avez déjà supprimer les publicités auparavant, vous pouvez dès à présent profiter à 100% de l'application !", image: #imageLiteral(resourceName: "ic_done_all_light_48pt")) {
                 SwiftEntryKit.dismiss(.all)
             }
@@ -360,6 +359,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         getUserInfo()
         configureTapOnSection()
         configureTableViewFooter()
+        
     }
     
     func configureSegmentedControl() {

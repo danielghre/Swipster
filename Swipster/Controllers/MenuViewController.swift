@@ -54,22 +54,19 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func share(_ sender: Any) {
-        let activityVC = UIActivityViewController(activityItems: ["Découvrez Swipster... Evitez les pertes de temps, matchez uniquement selon vos envies ! https://swipster.io"], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: ["Découvrez Swipster... Pour un soir ou pour la vie, nous répondons à toutes vos envies ! 😍 🍻 🔥 https://swipster.io"], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = view
         present(activityVC, animated: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        UINavigationBar.appearance().setBackgroundImage(
-            UIImage(),
-            for: .any,
-            barMetrics: .default)
-        changeProfilPicButton.setRounded()
+        
+        UINavigationBar.appearance().shadowImage = UIImage()
+
+        changeProfilPicButton.layer.cornerRadius = changeProfilPicButton.frame.width / 8
         changeProfilPicButton.titleLabel?.adjustsFontSizeToFitWidth = true
         shareButton.layer.cornerRadius = shareButton.frame.height / 5
-        UINavigationBar.appearance().shadowImage = UIImage()
         textView.delegate = self
         UITextView.appearance().tintColor = UIColor(rgb: 0x961872)
         textView.font = UIFont(name: "ITCAvantGardePro-Bk", size: textView.frame.height / 5)
@@ -81,9 +78,6 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     func configureLocation() {
@@ -117,12 +111,6 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-    }
-    
     @objc func keyboardWillChange(notification:Notification){
         
         if notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification{
@@ -133,7 +121,8 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func settingsPerso(){
-        ref.child("users").child(uid!).observeSingleEvent(of: .value) { [weak self] (snapshot) in
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        ref.child("users").child(uid).observeSingleEvent(of: .value) { [weak self] (snapshot) in
             guard let dict = snapshot.value as? [String: Any] else { return }
             let user = User(dictionary: dict)
             self?.user = user
@@ -161,7 +150,6 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
             charactersCount.text = String(120 - textView.text.count)
         }else{
             charactersCount.text = "120"
-            textView.textColor = UIColor.lightGray
             textView.text = "Décrivez vous en moins de 120 caractères !"
             textView.font = UIFont.italicSystemFont(ofSize: 14)
         }
@@ -221,11 +209,6 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func getUserLocation(){
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-        locationManager.startMonitoringSignificantLocationChanges()
         if CLLocationManager.locationServicesEnabled() {
             switch CLLocationManager.authorizationStatus() {
             case .authorizedAlways, .authorizedWhenInUse:
@@ -312,7 +295,6 @@ extension MenuViewController: UITextViewDelegate {
         
         if textView.text.isEmpty {
             textView.text = "Décrivez vous en moins de 120 caractères !"
-            textView.textColor = UIColor.lightGray
             textView.font = UIFont.italicSystemFont(ofSize: 14)
         }
     }
@@ -335,10 +317,9 @@ extension MenuViewController: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
+        if textView.text == "Décrivez vous en moins de 120 caractères !" {
             textView.font = UIFont(name: "ITCAvantGardePro-Bk", size: 14)
             textView.text = nil
-            textView.textColor = UIColor.black
         }
     }
 }

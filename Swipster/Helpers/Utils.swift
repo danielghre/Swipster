@@ -10,6 +10,7 @@ import SwiftEntryKit
 import Firebase
 import FirebaseDatabase
 import Photos
+import FacebookLogin
 
 public enum choiceDone: String {
     case nothing = "nothing"
@@ -186,7 +187,7 @@ func showPopupMessage(title: String, buttonTitle: String, description: String, i
     SwiftEntryKit.display(entry: contentView, using: attributes)
 }
 
-func showCenterAlertView(title: String, message: String, okButton: String, cancelButton: String, completion: @escaping () -> Void) {
+func showCenterAlertView(title: String, message: String, okButton: String, cancelButton: String, okButtonColor: EKColor? = nil, cancelButtonColor: EKColor? = nil, completion: @escaping () -> Void) {
     var attributes: EKAttributes
     attributes = EKAttributes.centerFloat
     attributes.windowLevel = .alerts
@@ -202,27 +203,42 @@ func showCenterAlertView(title: String, message: String, okButton: String, cance
     attributes.exitAnimation = .init(translate: .init(duration: 0.2))
     attributes.popBehavior = .animated(animation: .init(translate: .init(duration: 0.35)))
     attributes.positionConstraints.size = .init(width: .offset(value: 20), height: .intrinsic)
-    let title = EKProperty.LabelContent(text: title, style: .init(font: UIFont(name: "BerlinSansFBDemi-Bold", size: 32)!, color: EKColor(light: UIColor.darkGray, dark: .white), alignment: .center))
+    let title = EKProperty.LabelContent(text: title, style: .init(font: UIFont(name: "BerlinSansFBDemi-Bold", size: 32)!, color: EKColor(light: .darkGray, dark: .white), alignment: .center))
     let description = EKProperty.LabelContent(text: message, style: .init(font: UIFont(name: "Bellota-Regular", size: 15)!, color: EKColor(light: UIColor(white: 0.4, alpha: 1), dark: .white), alignment: .center))
     let simpleMessage = EKSimpleMessage(title: title, description: description)
     
     let buttonFont = UIFont(name: "ITCAvantGardePro-Bk", size: 16)!
     
-    let closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(light: UIColor.darkGray, dark: .white))
-    let closeButtonLabel = EKProperty.LabelContent(text: cancelButton, style: closeButtonLabelStyle)
+    var closeButtonLabelStyle: EKProperty.LabelStyle?
+    if cancelButtonColor == nil {
+        closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(light: .darkGray, dark: .white))
+    } else {
+        closeButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: cancelButtonColor!)
+    }
+    let closeButtonLabel = EKProperty.LabelContent(text: cancelButton, style: closeButtonLabelStyle!)
     let closeButton = EKProperty.ButtonContent(label: closeButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.darkGray.withAlphaComponent(0.05))) {
         SwiftEntryKit.dismiss()
     }
     
-    let okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(UIColor.cancelRed))
-    let okButtonLabel = EKProperty.LabelContent(text: okButton, style: okButtonLabelStyle)
+    var okButtonLabelStyle: EKProperty.LabelStyle?
+    if okButtonColor == nil {
+        okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: EKColor(UIColor.cancelRed))
+    } else {
+        okButtonLabelStyle = EKProperty.LabelStyle(font: buttonFont, color: okButtonColor!)
+    }
+    let okButtonLabel = EKProperty.LabelContent(text: okButton, style: okButtonLabelStyle!)
     let okButton = EKProperty.ButtonContent(label: okButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.cancelRed.withAlphaComponent(0.05))) {
         completion()
     }
     
-    let buttonsBarContent = EKProperty.ButtonBarContent(with: okButton, closeButton, separatorColor: EKColor(UIColor.lightGray), expandAnimatedly: true)
+    var buttonsBarContent: EKProperty.ButtonBarContent?
+    if okButtonColor == nil {
+        buttonsBarContent = EKProperty.ButtonBarContent(with: okButton, closeButton, separatorColor: EKColor(UIColor.lightGray), expandAnimatedly: true)
+    } else {
+        buttonsBarContent = EKProperty.ButtonBarContent(with: closeButton, okButton, separatorColor: EKColor(UIColor.lightGray), expandAnimatedly: true)
+    }
     
-    let alertMessage = EKAlertMessage(simpleMessage: simpleMessage, buttonBarContent: buttonsBarContent)
+    let alertMessage = EKAlertMessage(simpleMessage: simpleMessage, buttonBarContent: buttonsBarContent!)
     
     let contentView = EKAlertMessageView(with: alertMessage)
     
@@ -232,10 +248,10 @@ func showCenterAlertView(title: String, message: String, okButton: String, cance
 func getFcmToken(){
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let fcmToken = appDelegate.firebaseToken ?? ""
-    let uid = Auth.auth().currentUser?.uid
+    guard let uid = Auth.auth().currentUser?.uid else { return }
     let values = ["fcmToken": fcmToken]
     
-    Database.database().reference().child("users").child(uid!).updateChildValues(values, withCompletionBlock: { (err, ref) in
+    Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { (err, ref) in
         if err != nil {
             print(err ?? "")
             return
@@ -260,7 +276,7 @@ func sendPushNotification(notData: [String: Any]) {
     request.httpMethod = "POST"
     request.httpBody = try? JSONSerialization.data(withJSONObject:notData, options: [])
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.setValue("key=AAAAbXaS-Jo:APA91bFwFC1hLmBGj1uTp7LQLNyvYHwhHjTJQsThug3Xi-cke-IYQvqVdmOBIF02UWwa1mFsbF4id5Ey_n1MVIq_BkcM12NqKMz0bBYD93PTLSS9-_N_jSXg1joJULY4UPdTIwm0fVpx", forHTTPHeaderField: "Authorization")
+    request.setValue("key=AAAANpOP_Uo:APA91bH2QcLQ9d43ZhkEam3GM5dL-TXgLvCPL33TrfHceVfPuoyPj8aYVsdVRpl07EbTa_Uo3d4xhpgjA9gRVdtTg6qyqV5Ddk579QwYXnzNicbuOoyd8vCosECo8T0eFb_E0LO460w0", forHTTPHeaderField: "Authorization")
     let task =  URLSession.shared.dataTask(with: request)  { (data, response, error) in
         do {
             if let jsonData = data {
@@ -355,4 +371,14 @@ func checkCameraPermission(completion: @escaping () -> Void) {
 
 func hideAds()->Bool {
     return UserDefaults.standard.bool(forKey: "Purchased")
+}
+
+func isAppAlreadyLaunchedOnce()->Bool{
+    let defaults = UserDefaults.standard
+    if let _ = defaults.string(forKey: "isAppAlreadyLaunchedOnce") {
+        return true
+    } else {
+        defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
+        return false
+    }
 }

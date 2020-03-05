@@ -35,6 +35,7 @@ struct User {
     let bio: String
     let purchased: Bool
     let isPremium: Bool
+    var seenArray: [String: String]?
     
     init(dictionary: [String: Any]) {
         first_name = dictionary["first_name"] as? String ?? ""

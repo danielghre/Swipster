@@ -31,7 +31,6 @@ class MoreInfosViewController: UIViewController {
     
     @IBAction func selectProfilPic(_ sender: UIButton) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertController.pruneNegativeWidthConstraints()
         
         let takePic = UIAlertAction(title: "Caméra", style: .default, handler: { [weak self] (_) in
             guard let self = self else { return }
@@ -207,12 +206,11 @@ class MoreInfosViewController: UIViewController {
                     let lookingFor = self?.sexe == "male" ? "female" : "male"
                     let values = ["first_name": self?.first_name, "birthday": self?.ageUser, "email": self?.email, "gender": self?.sexe, "pictureURL": imageUrl, "lookingFor": lookingFor, "lookingDistance": "26", "minAge":"18", "maxAge":"26", "public": "true"]
                     createUser(uid: uid, values: values as [String : AnyObject], completion: { [weak self] in
+                        self?.navigationController?.viewControllers.removeAll()
                         let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         let vc = storyboard.instantiateViewController(withIdentifier: "swipe")
-                        vc.modalPresentationStyle = .fullScreen
-                        self?.present(vc, animated: true, completion: {
-                            SwiftEntryKit.dismiss()
-                        })
+                        UIApplication.shared.keyWindow?.setRootViewController(vc, options: .init(direction: .toTop, style: .linear))
+                        SwiftEntryKit.dismiss()
                     })
                 }
             } else {
