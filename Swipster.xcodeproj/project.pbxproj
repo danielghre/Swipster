@@ -62,8 +62,8 @@
 		7E787B99240733D70088B9BD /* LoginScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E787B98240733D70088B9BD /* LoginScreen.storyboard */; };
 		7E7A466723DF3241000309E7 /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7A466623DF3241000309E7 /* AppUpdater.swift */; };
 		7E97A6DA219DECB700AE336D /* BerlinSansFB-DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E97A6D9219DEC5C00AE336D /* BerlinSansFB-DemiBold.ttf */; };
+		7E98FB8524167BCF009835ED /* DismissFromRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E98FB8424167BCF009835ED /* DismissFromRight.swift */; };
 		7ED86C5421C2CF7B0006CC2D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED86C5321C2CF7B0006CC2D /* StoreKit.framework */; };
-		7EFE410A2346516F0069CF96 /* RangeUISlider in Frameworks */ = {isa = PBXBuildFile; productRef = 7EFE41092346516F0069CF96 /* RangeUISlider */; };
 		7EFE410D234652280069CF96 /* SwiftEntryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7EFE410C234652280069CF96 /* SwiftEntryKit */; };
 		F42FA0A51E3B3A5500DB0568 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F42FA0A41E3B3A5500DB0568 /* GoogleService-Info.plist */; };
 		F4E9C8FB1E013DBC00FD9D7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E9C8FA1E013DBC00FD9D7C /* AppDelegate.swift */; };
@@ -130,6 +130,7 @@
 		7E7A466623DF3241000309E7 /* AppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppUpdater.swift; path = Helpers/AppUpdater.swift; sourceTree = "<group>"; };
 		7E97550020AF49CE00DDC35A /* Swipster.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Swipster.entitlements; sourceTree = "<group>"; };
 		7E97A6D9219DEC5C00AE336D /* BerlinSansFB-DemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BerlinSansFB-DemiBold.ttf"; path = "fonts/BerlinSansFB-DemiBold.ttf"; sourceTree = "<group>"; };
+		7E98FB8424167BCF009835ED /* DismissFromRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissFromRight.swift; sourceTree = "<group>"; };
 		7E9FCBFA207172610083808B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		7E9FCBFB207172610083808B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		7ED86C5321C2CF7B0006CC2D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -151,7 +152,6 @@
 				7E4D0D15237D951B00189484 /* FacebookCore in Frameworks */,
 				7EFE410D234652280069CF96 /* SwiftEntryKit in Frameworks */,
 				7ED86C5421C2CF7B0006CC2D /* StoreKit.framework in Frameworks */,
-				7EFE410A2346516F0069CF96 /* RangeUISlider in Frameworks */,
 				FD2BDA33B6C3DDC0DF08F40D /* Pods_Swipster.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,6 +212,7 @@
 			children = (
 				7E430919220CFEC800B42704 /* SlideFromLeft.swift */,
 				7E430918220CFEC800B42704 /* SlideFromRight.swift */,
+				7E98FB8424167BCF009835ED /* DismissFromRight.swift */,
 			);
 			name = Segue;
 			sourceTree = "<group>";
@@ -377,7 +378,6 @@
 			);
 			name = Swipster;
 			packageProductDependencies = (
-				7EFE41092346516F0069CF96 /* RangeUISlider */,
 				7EFE410C234652280069CF96 /* SwiftEntryKit */,
 				7E4D0D12237D951B00189484 /* FacebookLogin */,
 				7E4D0D14237D951B00189484 /* FacebookCore */,
@@ -426,7 +426,6 @@
 			);
 			mainGroup = F4E9C8EE1E013DBC00FD9D7C;
 			packageReferences = (
-				7EFE41082346516F0069CF96 /* XCRemoteSwiftPackageReference "RangeUISlider" */,
 				7EFE410B234652280069CF96 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */,
 				7E4D0D11237D951B00189484 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
@@ -537,6 +536,7 @@
 				7E553605220CFDAB0074E912 /* EmptyCell.swift in Sources */,
 				7E787B97240733640088B9BD /* ViewController.swift in Sources */,
 				7E5535D0220CFCC70074E912 /* ChatLogController.swift in Sources */,
+				7E98FB8524167BCF009835ED /* DismissFromRight.swift in Sources */,
 				7E5535EA220CFD490074E912 /* PremiumViewController.swift in Sources */,
 				7E43090E220CFE7200B42704 /* Extensions.swift in Sources */,
 				7E55360C220CFDAB0074E912 /* EmojiOptionsOverlay.swift in Sources */,
@@ -698,7 +698,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Swipster/Swipster.entitlements;
-				CURRENT_PROJECT_VERSION = 2600;
+				CURRENT_PROJECT_VERSION = 2608;
 				DEVELOPMENT_TEAM = TH94ESK4DM;
 				INFOPLIST_FILE = "$(SRCROOT)/Swipster/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -706,7 +706,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.4;
+				MARKETING_VERSION = 1.6.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -814,7 +814,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Swipster/Swipster.entitlements;
-				CURRENT_PROJECT_VERSION = 2600;
+				CURRENT_PROJECT_VERSION = 2608;
 				DEVELOPMENT_TEAM = TH94ESK4DM;
 				INFOPLIST_FILE = "$(SRCROOT)/Swipster/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -822,7 +822,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.4;
+				MARKETING_VERSION = 1.6.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -956,14 +956,6 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		7EFE41082346516F0069CF96 /* XCRemoteSwiftPackageReference "RangeUISlider" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/chicio/RangeUISlider.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		7EFE410B234652280069CF96 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/huri000/SwiftEntryKit.git";
@@ -984,11 +976,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7E4D0D11237D951B00189484 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookCore;
-		};
-		7EFE41092346516F0069CF96 /* RangeUISlider */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7EFE41082346516F0069CF96 /* XCRemoteSwiftPackageReference "RangeUISlider" */;
-			productName = RangeUISlider;
 		};
 		7EFE410C234652280069CF96 /* SwiftEntryKit */ = {
 			isa = XCSwiftPackageProductDependency;

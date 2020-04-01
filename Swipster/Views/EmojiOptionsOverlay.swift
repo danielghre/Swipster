@@ -88,14 +88,10 @@ class EmojiOptionsOverlay: UIView {
                 showLikeEmojis()
             }
             
-            like1Emoji.image = like1Emoji.image!.withRenderingMode(.alwaysTemplate)
-            like1Emoji.tintColor = UIColor(red: 166/255, green: 166/255, blue: 166/255, alpha: 0.8)
-            
-            like2Emoji.image = like2Emoji.image!.withRenderingMode(.alwaysTemplate)
-            like2Emoji.tintColor = UIColor(red: 166/255, green: 166/255, blue: 166/255, alpha: 0.8)
-            
-            like3Emoji.image = like3Emoji.image!.withRenderingMode(.alwaysTemplate)
-            like3Emoji.tintColor = UIColor(red: 166/255, green: 166/255, blue: 166/255, alpha: 0.8)
+            for emoji in [like1Emoji, like2Emoji, like3Emoji] {
+                emoji.image = emoji.image!.withRenderingMode(.alwaysTemplate)
+                emoji.tintColor = UIColor(red: 166/255, green: 166/255, blue: 166/255, alpha: 0.8)
+            }
             
             switch option {
             case .like1:

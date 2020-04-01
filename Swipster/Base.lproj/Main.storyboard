@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -49,7 +49,7 @@
                                         <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oks-bE-Ti8">
+                                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oks-bE-Ti8">
                                         <rect key="frame" x="19" y="146" width="167" height="166"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                         <color key="backgroundColor" red="0.58823529411764708" green="0.094117647058823528" blue="0.44705882352941173" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -74,7 +74,6 @@
                             </view>
                             <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="83t-WO-7a9">
                                 <rect key="frame" x="0.0" y="44" width="375" height="44"/>
-                                <color key="barTintColor" red="0.58823529411764708" green="0.094117647058823528" blue="0.44705882352941173" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textAttributes key="titleTextAttributes">
                                     <fontDescription key="fontDescription" name="Bellota-Regular" family="Bellota" pointSize="25"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -89,7 +88,7 @@
                                         <barButtonItem key="rightBarButtonItem" image="backArrow" style="done" id="xPt-kr-T0f">
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <connections>
-                                                <segue destination="Jrg-an-ow9" kind="custom" identifier="SlideFromRight" customClass="SlideFromRight" customModule="Swipster" customModuleProvider="target" id="cyO-sF-kSV"/>
+                                                <segue destination="Jrg-an-ow9" kind="custom" identifier="SlideFromRight" customClass="DismissFromRight" customModule="Swipster" customModuleProvider="target" id="cyO-sF-kSV"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -220,7 +219,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tXr-dR-49g" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="left" id="VLW-ji-whV">
                     <connections>
-                        <segue destination="Jrg-an-ow9" kind="custom" identifier="slideFromRight" customClass="SlideFromRight" customModule="Swipster" customModuleProvider="target" id="x4F-Au-5Mx"/>
+                        <segue destination="Jrg-an-ow9" kind="custom" identifier="slideFromRight" customClass="DismissFromRight" customModule="Swipster" customModuleProvider="target" id="x4F-Au-5Mx"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
@@ -252,12 +251,12 @@
                                     <navigationItem id="jz1-Yk-4kp">
                                         <barButtonItem key="leftBarButtonItem" title="Item" image="menu" id="ebn-jd-9LU">
                                             <connections>
-                                                <action selector="goToMenu:" destination="Jrg-an-ow9" id="0aS-O9-g3b"/>
+                                                <segue destination="oGk-7d-G35" kind="custom" customClass="SlideFromLeft" customModule="Swipster" customModuleProvider="target" id="QZe-QK-hmk"/>
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" image="chat" id="rnd-28-Nzn">
                                             <connections>
-                                                <action selector="goToMessages:" destination="Jrg-an-ow9" id="d7h-by-Oi4"/>
+                                                <segue destination="1Y9-Lz-6yw" kind="custom" identifier="swipeFromRight" customClass="SlideFromRight" customModule="Swipster" customModuleProvider="target" id="OdU-lR-AZ6"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -352,8 +351,14 @@
                                 <color key="textColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="QQx-d9-Fx9">
+                                <rect key="frame" x="172.66666666666666" y="51" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="1nl-Rf-Cwo"/>
+                                    <constraint firstAttribute="height" constant="30" id="cDt-fw-j91"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.10980392160000001" green="0.1529411765" blue="0.39607843139999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="mz9-BD-oYw" firstAttribute="trailing" secondItem="ef8-Es-4C3" secondAttribute="trailing" id="6tg-yQ-CqA"/>
@@ -361,6 +366,7 @@
                             <constraint firstItem="mz9-BD-oYw" firstAttribute="leading" secondItem="ef8-Es-4C3" secondAttribute="leading" id="BQ2-UQ-VJc"/>
                             <constraint firstItem="Js9-7e-PA2" firstAttribute="top" secondItem="I92-2E-kKy" secondAttribute="bottom" constant="24" id="Cv5-1Y-It6"/>
                             <constraint firstItem="X8V-Lq-82O" firstAttribute="bottom" secondItem="ef8-Es-4C3" secondAttribute="bottom" id="D0f-MR-MkG"/>
+                            <constraint firstItem="QQx-d9-Fx9" firstAttribute="centerX" secondItem="mz9-BD-oYw" secondAttribute="centerX" id="Dg9-yB-cdR"/>
                             <constraint firstItem="I92-2E-kKy" firstAttribute="top" secondItem="WVE-XA-VkF" secondAttribute="top" id="Er6-k5-E5M"/>
                             <constraint firstItem="ef8-Es-4C3" firstAttribute="trailing" secondItem="uzw-ua-edh" secondAttribute="trailing" constant="38" id="G3R-FA-nGN"/>
                             <constraint firstItem="Udx-qc-yew" firstAttribute="centerX" secondItem="WVE-XA-VkF" secondAttribute="centerX" id="JgA-45-anM"/>
@@ -376,6 +382,7 @@
                             <constraint firstItem="uzw-ua-edh" firstAttribute="leading" secondItem="ef8-Es-4C3" secondAttribute="leading" constant="38" id="cdL-qi-Xxi"/>
                             <constraint firstItem="uzw-ua-edh" firstAttribute="centerX" secondItem="WVE-XA-VkF" secondAttribute="centerX" id="eJz-hG-JoS"/>
                             <constraint firstItem="X8V-Lq-82O" firstAttribute="trailing" secondItem="ef8-Es-4C3" secondAttribute="trailing" id="kN3-Kp-Du5"/>
+                            <constraint firstItem="QQx-d9-Fx9" firstAttribute="centerY" secondItem="mz9-BD-oYw" secondAttribute="centerY" id="lek-b9-tU8"/>
                             <constraint firstItem="I92-2E-kKy" firstAttribute="bottom" secondItem="mz9-BD-oYw" secondAttribute="bottom" id="xDx-wS-dmV"/>
                             <constraint firstItem="ef8-Es-4C3" firstAttribute="trailing" secondItem="Js9-7e-PA2" secondAttribute="trailing" id="xtw-rB-b3e"/>
                         </constraints>
@@ -395,20 +402,17 @@
                         <outlet property="errorTitle" destination="9Ow-WO-tXL" id="SsJ-nj-1cf"/>
                         <outlet property="hotImageView" destination="eDJ-lk-0Mf" id="gvs-gD-GRv"/>
                         <outlet property="loveImageView" destination="agn-Ea-G6M" id="gHr-ni-XGa"/>
-                        <outlet property="navBar" destination="mz9-BD-oYw" id="yKC-RV-wxb"/>
-                        <segue destination="oGk-7d-G35" kind="custom" identifier="swipeFromLeft" customClass="SlideFromLeft" customModule="Swipster" customModuleProvider="target" id="9tD-sB-rAw"/>
-                        <segue destination="1Y9-Lz-6yw" kind="custom" identifier="swipeFromRight" customClass="SlideFromRight" customModule="Swipster" customModuleProvider="target" id="v39-5z-daR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wAr-AC-csp" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <swipeGestureRecognizer direction="right" id="tAl-6u-kU7">
                     <connections>
-                        <segue destination="oGk-7d-G35" kind="custom" identifier="swipeFromLeft" customClass="SlideFromLeft" customModule="Swipster" customModuleProvider="target" id="Ip2-zk-raP"/>
+                        <segue destination="oGk-7d-G35" kind="custom" customClass="SlideFromLeft" customModule="Swipster" customModuleProvider="target" id="sl2-s7-bn0"/>
                     </connections>
                 </swipeGestureRecognizer>
                 <swipeGestureRecognizer direction="left" id="xgY-V8-Q1v">
                     <connections>
-                        <action selector="swipeToMessages:" destination="Jrg-an-ow9" id="stu-G6-fKT"/>
+                        <segue destination="1Y9-Lz-6yw" kind="custom" identifier="slideFromRight" customClass="SlideFromRight" customModule="Swipster" customModuleProvider="target" id="EAd-cS-pSv"/>
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
@@ -418,11 +422,12 @@
         <scene sceneID="WY1-Al-2LW">
             <objects>
                 <tableViewController id="53D-jc-DgG" customClass="MessagesController" customModule="Swipster" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mOt-Q3-vtU">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mOt-Q3-vtU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="separatorColor" red="0.58823529411764708" green="0.094117647058823528" blue="0.44705882352941173" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <inset key="separatorInset" minX="60" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="4n6-HI-mRH">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -444,10 +449,10 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellId" id="vVU-9r-DAV">
-                                <rect key="frame" x="0.0" y="72" width="375" height="43.666667938232422"/>
+                                <rect key="frame" x="0.0" y="72" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vVU-9r-DAV" id="XT5-7r-UMR">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -478,7 +483,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="QOc-ha-hG6">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.58823529411764708" green="0.094117647058823528" blue="0.44705882352941173" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="Bellota-Regular" family="Bellota" pointSize="25"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -535,7 +539,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SUPPRIMER LA PUBLICITÉ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2K6-aH-KLQ">
-                                                    <rect key="frame" x="89.666666666666686" y="26.666666666666671" width="196" height="17"/>
+                                                    <rect key="frame" x="89.666666666666671" y="26.666666666666671" width="195.66666666666663" height="17"/>
                                                     <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
                                                     <color key="textColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -555,7 +559,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurer les achats précédents" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Uw-uW-69N">
-                                                    <rect key="frame" x="55.666666666666657" y="26.666666666666671" width="264" height="17"/>
+                                                    <rect key="frame" x="55.333333333333343" y="26.666666666666671" width="264.33333333333326" height="17"/>
                                                     <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
                                                     <color key="textColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -579,7 +583,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PROFIL PUBLIQUE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C4D-nz-6Bf">
-                                                    <rect key="frame" x="16" y="30" width="138" height="17"/>
+                                                    <rect key="frame" x="16" y="30" width="137.66666666666666" height="17"/>
                                                     <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -690,7 +694,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ÂGE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6X-Y4-mGl">
-                                                    <rect key="frame" x="16" y="29" width="37" height="17"/>
+                                                    <rect key="frame" x="15.999999999999996" y="29" width="36.666666666666657" height="17"/>
                                                     <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -707,6 +711,7 @@
                                                 <constraint firstItem="a6X-Y4-mGl" firstAttribute="top" secondItem="eur-h1-3fh" secondAttribute="topMargin" constant="18" id="KzS-Nb-ddD"/>
                                                 <constraint firstItem="a6X-Y4-mGl" firstAttribute="leading" secondItem="eur-h1-3fh" secondAttribute="leadingMargin" id="X3N-q1-Waf"/>
                                                 <constraint firstItem="Sm6-sC-EFo" firstAttribute="trailing" secondItem="eur-h1-3fh" secondAttribute="trailingMargin" id="elJ-59-Vx0"/>
+                                                <constraint firstItem="Sm6-sC-EFo" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="a6X-Y4-mGl" secondAttribute="trailing" constant="8" symbolic="YES" id="iFo-Y7-YiA"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -717,110 +722,62 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="ksg-w4-k5j" customClass="RangeUISlider" customModule="RangeUISlider">
-                                                    <rect key="frame" x="8" y="11" width="359" height="48"/>
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zgb-Zw-sGu" customClass="RangeSeekSlider" customModule="RangeSeekSlider">
+                                                    <rect key="frame" x="8" y="2.6666666666666643" width="359" height="65"/>
+                                                    <color key="tintColor" systemColor="secondarySystemFillColor" red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.16" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="defaultValueLeftKnob">
-                                                            <real key="value" value="18"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="defaultValueRightKnob">
-                                                            <real key="value" value="26"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="scaleMinValue">
-                                                            <real key="value" value="18"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="scaleMaxValue">
-                                                            <real key="value" value="55"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="leftKnobWidth">
-                                                            <real key="value" value="28"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="leftKnobHeight">
-                                                            <real key="value" value="28"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="leftKnobCornes">
-                                                            <real key="value" value="14"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="leftShadowColor">
-                                                            <color key="value" red="0.043137254899999998" green="0.043137254899999998" blue="0.043137254899999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="size" keyPath="leftShadowOffset">
-                                                            <size key="value" width="0.0" height="3"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="leftShadowRadius">
-                                                            <real key="value" value="1"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="leftShadowOpacity">
-                                                            <real key="value" value="0.20000000000000001"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="rightKnobWidth">
-                                                            <real key="value" value="28"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="rightKnobHeight">
-                                                            <real key="value" value="28"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="rightKnobCornes">
-                                                            <real key="value" value="14"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="rightKnobColor">
-                                                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="barHeight">
-                                                            <real key="value" value="2"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="rangeSelectedColor">
-                                                            <color key="value" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="leftKnobColor">
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="handleColor">
                                                             <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="size" keyPath="rightShadowOffset">
-                                                            <size key="value" width="0.0" height="3"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="handleDiameter">
+                                                            <real key="value" value="30"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="rightShadowRadius">
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="minDistance">
+                                                            <real key="value" value="4"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="minValue">
+                                                            <real key="value" value="18"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="maxValue">
+                                                            <real key="value" value="55"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="selectedMinValue">
+                                                            <real key="value" value="18"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="selectedMaxValue">
+                                                            <real key="value" value="26"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="colorBetweenHandles">
+                                                            <color key="value" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="lineHeight">
+                                                            <real key="value" value="3"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="step">
                                                             <real key="value" value="1"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="rightShadowColor">
-                                                            <color key="value" red="0.04195748731" green="0.04195748731" blue="0.04195748731" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="enableStep" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="maxDistance">
+                                                            <real key="value" value="40"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="rightKnobBorderWidth">
-                                                            <real key="value" value="0.0"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="handleBorderWidth">
+                                                            <real key="value" value="0.5"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="rightShadowOpacity">
-                                                            <real key="value" value="0.20000000000000001"/>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="handleBorderColor">
+                                                            <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="rangeNotSelectedGradientColor2">
-                                                            <color key="value" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="barBorderColor">
-                                                            <color key="value" red="0.86939119880000004" green="0.26781749980000003" blue="0.87547355410000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="barShadowColor">
-                                                            <color key="value" red="0.87547355410000005" green="0.86702192389999999" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="rangeNotSelectedGradientColor1">
-                                                            <color key="value" red="0.71764705880000002" green="0.71764705880000002" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="barLeading">
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="selectedHandleDiameterMultiplier">
                                                             <real key="value" value="1"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="barTrailing">
-                                                            <real key="value" value="1"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="leftKnobCorners">
-                                                            <real key="value" value="14"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="rightKnobCorners">
-                                                            <real key="value" value="14"/>
-                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="hideLabels" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottomMargin" secondItem="ksg-w4-k5j" secondAttribute="bottom" id="RDb-1F-Pu1"/>
-                                                <constraint firstItem="ksg-w4-k5j" firstAttribute="leading" secondItem="Tj0-Du-OEp" secondAttribute="leadingMargin" id="Zc3-kf-EZd"/>
-                                                <constraint firstItem="ksg-w4-k5j" firstAttribute="trailing" secondItem="Tj0-Du-OEp" secondAttribute="trailingMargin" id="h4L-3g-XEe"/>
-                                                <constraint firstItem="ksg-w4-k5j" firstAttribute="top" secondItem="Tj0-Du-OEp" secondAttribute="topMargin" id="yPU-ig-L3S"/>
+                                                <constraint firstItem="Zgb-Zw-sGu" firstAttribute="leading" secondItem="Tj0-Du-OEp" secondAttribute="leading" constant="8" id="JAh-sv-DRt"/>
+                                                <constraint firstItem="Zgb-Zw-sGu" firstAttribute="centerX" secondItem="Tj0-Du-OEp" secondAttribute="centerX" id="VDb-o1-yWt"/>
+                                                <constraint firstAttribute="trailing" secondItem="Zgb-Zw-sGu" secondAttribute="trailing" constant="8" id="mdb-ey-RTo"/>
+                                                <constraint firstItem="Zgb-Zw-sGu" firstAttribute="centerY" secondItem="Tj0-Du-OEp" secondAttribute="centerY" id="oo2-MW-TWG"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -860,10 +817,10 @@
                                                     <rect key="frame" x="0.0" y="2" width="375" height="64"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="selectedTextColor">
-                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="value" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
-                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <color key="value" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </userDefinedRuntimeAttribute>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="indicatorHeight">
                                                             <real key="value" value="1"/>
@@ -897,7 +854,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Partager Swipster" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7c-Za-jSY">
-                                                    <rect key="frame" x="116" y="26.666666666666671" width="143" height="17"/>
+                                                    <rect key="frame" x="116.33333333333333" y="26.666666666666671" width="142.66666666666669" height="17"/>
                                                     <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
                                                     <color key="textColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -942,7 +899,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nous contacter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wq2-Fx-GSH">
-                                                    <rect key="frame" x="123.66666666666669" y="26.666666666666671" width="128" height="17"/>
+                                                    <rect key="frame" x="123.33333333333333" y="26.666666666666671" width="128.33333333333337" height="17"/>
                                                     <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
                                                     <color key="textColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -982,7 +939,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Voir le tutoriel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HrQ-b9-CRW">
-                                                    <rect key="frame" x="132.66666666666666" y="26.666666666666671" width="110" height="17"/>
+                                                    <rect key="frame" x="132.66666666666666" y="26.666666666666671" width="109.66666666666666" height="17"/>
                                                     <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
                                                     <color key="textColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1027,7 +984,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Politique de confidentialité" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEZ-se-Swl">
-                                                    <rect key="frame" x="77" y="26.666666666666671" width="221" height="17"/>
+                                                    <rect key="frame" x="77.333333333333329" y="26.666666666666671" width="220.66666666666669" height="17"/>
                                                     <fontDescription key="fontDescription" name="ITCAvantGardePro-Bk" family="ITC Avant Garde Gothic Pro" pointSize="17"/>
                                                     <color key="textColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1098,13 +1055,13 @@
                     <navigationItem key="navigationItem" title="REGLAGES" id="hjo-bE-qt1">
                         <barButtonItem key="rightBarButtonItem" image="Close" id="f4o-ug-Oc8">
                             <connections>
-                                <segue destination="jo3-40-5g5" kind="unwind" unwindAction="unwindSegue:" id="Dd6-uE-SoW"/>
+                                <action selector="dismissView:" destination="qJf-ls-xWZ" id="gYW-qf-Evv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="ageLabel" destination="Sm6-sC-EFo" id="D8e-nT-SdP"/>
-                        <outlet property="ageSlider" destination="ksg-w4-k5j" id="lit-AY-HwP"/>
+                        <outlet property="ageSlider" destination="Zgb-Zw-sGu" id="Ssd-1b-mUH"/>
                         <outlet property="contactSection" destination="ytP-lw-Mbc" id="Il5-2b-wO0"/>
                         <outlet property="deleteMyAccountSection" destination="0Hc-1a-sgC" id="5Lf-OQ-LKk"/>
                         <outlet property="distanceSlider" destination="rSF-eg-KG7" id="H8B-gm-XQM"/>
@@ -1121,7 +1078,6 @@
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mlg-oT-6Ho" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="jo3-40-5g5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3840.579710144928" y="1748.4375"/>
         </scene>
@@ -1133,7 +1089,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="wVW-eE-R7M">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.58823529409999997" green="0.094117647060000004" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="Bellota-Regular" family="Bellota" pointSize="25"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1149,6 +1104,12 @@
             <point key="canvasLocation" x="3060" y="1751"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="EAd-cS-pSv"/>
+        <segue reference="x4F-Au-5Mx"/>
+        <segue reference="QZe-QK-hmk"/>
+    </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
         <image name="Close" width="15.5" height="15.5"/>
         <image name="Dots" width="10" height="281"/>
@@ -1157,15 +1118,11 @@
         <image name="chat" width="39.333332061767578" height="30.666666030883789"/>
         <image name="cheers" width="185" height="167"/>
         <image name="hot" width="122" height="140"/>
+        <image name="icon" width="1456" height="1550"/>
         <image name="locationIcon" width="276" height="276"/>
         <image name="love" width="164" height="164"/>
         <image name="mainBackground" width="1125" height="2436"/>
         <image name="menu" width="31" height="20.666666030883789"/>
         <image name="settingsButton" width="22.5" height="22.5"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="cyO-sF-kSV"/>
-        <segue reference="Ip2-zk-raP"/>
-    </inferredMetricsTieBreakers>
-    <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

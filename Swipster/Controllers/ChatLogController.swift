@@ -91,10 +91,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     func configureImagePicker() {
         imagePickerController.allowsEditing = true
         imagePickerController.delegate = self
-        imagePickerController.navigationBar.isTranslucent = false
-        imagePickerController.navigationBar.barTintColor = .purple
-        imagePickerController.navigationBar.tintColor = .white
-        imagePickerController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "Bellota-Regular", size: 25)!]
         imagePickerController.mediaTypes = ["public.image", "public.movie"]
     }
     

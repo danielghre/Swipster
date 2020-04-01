@@ -6,17 +6,16 @@
 //  Copyright © 2018 Swipster Inc. All rights reserved.
 //
 
-import Foundation
 import CoreLocation
 import Firebase
-import FirebaseStorage
-import FirebaseDatabase
-import RangeUISlider
 import SafariServices
-import MessageUI
 import Photos
 import SwiftEntryKit
 import CropViewController
+
+protocol MenuUpdateDelegate: AnyObject {
+    func didUpdate()
+}
 
 class MenuViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -25,6 +24,7 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
     lazy var imagePickerController = UIImagePickerController()
     let uid = Auth.auth().currentUser?.uid
     let ref = Database.database().reference()
+    weak var delegate: MenuUpdateDelegate?
     
     @IBOutlet private weak var dots: UIImageView!
     @IBOutlet private weak var ageLabel: UILabel!
@@ -43,10 +43,8 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
         if let vc = segue.destination as? UINavigationController {
             let tableVC = vc.viewControllers.first as! SettingsTableViewController
             tableVC.user = user
+            tableVC.delegate = self
         }
-    }
-    
-    @IBAction func unwindSegue(_ sender: UIStoryboardSegue){
     }
     
     @IBAction func changeProfilImage(_ sender: Any) {
@@ -68,7 +66,7 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
         changeProfilPicButton.titleLabel?.adjustsFontSizeToFitWidth = true
         shareButton.layer.cornerRadius = shareButton.frame.height / 5
         textView.delegate = self
-        UITextView.appearance().tintColor = UIColor(rgb: 0x961872)
+        textView.tintColor = UIColor(rgb: 0x961872)
         textView.font = UIFont(name: "ITCAvantGardePro-Bk", size: textView.frame.height / 5)
         
         getUserInfo()
@@ -90,10 +88,6 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
     
     func configureImagePicker() {
         imagePickerController.delegate = self
-        imagePickerController.navigationBar.isTranslucent = false
-        imagePickerController.navigationBar.barTintColor = .purple
-        imagePickerController.navigationBar.tintColor = .white
-        imagePickerController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "Bellota-Regular", size: 25)!]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -142,7 +136,6 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
         imageView.layer.borderWidth = 3
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         imageView.setRounded()
-        imageView.isUserInteractionEnabled = true
         label.text = user.first_name
         ageLabel.text = String(age) + " ans"
         if(user.bio != "") {
@@ -321,5 +314,11 @@ extension MenuViewController: UITextViewDelegate {
             textView.font = UIFont(name: "ITCAvantGardePro-Bk", size: 14)
             textView.text = nil
         }
+    }
+}
+
+extension MenuViewController: SettingsChangeDelegate {
+    func didUpdateDetail() {
+        delegate?.didUpdate()
     }
 }

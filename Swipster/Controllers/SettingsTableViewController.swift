@@ -6,37 +6,37 @@
 //  Copyright © 2018 Swipster Inc. All rights reserved.
 //
 
-import UIKit
-import FacebookLogin
-import CoreLocation
 import Firebase
-import FirebaseStorage
-import FirebaseDatabase
-import RangeUISlider
+import RangeSeekSlider
 import SafariServices
 import MessageUI
 import MXSegmentedControl
 import SwiftEntryKit
 
+protocol SettingsChangeDelegate: AnyObject {
+    func didUpdateDetail()
+}
 
 class SettingsTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, UIAdaptivePresentationControllerDelegate {
     
     var user: User?
     
     @IBOutlet private weak var segmentedControl: MXSegmentedControl!
-    @IBOutlet private weak var ageSlider: RangeUISlider!
+    @IBOutlet weak var ageSlider: RangeSeekSlider!
     @IBOutlet private weak var switchProfil: UISwitch!
+    weak var delegate: SettingsChangeDelegate?
     
     @IBAction func publiqueProfil(_ sender: Any) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let ref = Database.database().reference().child("users").child(uid)
         var values = [String: String]()
         values = switchProfil.isOn ? ["public": "true"] : ["public": "false"]
-        ref.updateChildValues(values, withCompletionBlock: { (err, ref) in
+        ref.updateChildValues(values, withCompletionBlock: { [weak self] (err, ref) in
             if err != nil {
                 print(err ?? "")
                 return
             }
+            self?.delegate?.didUpdateDetail()
         })
     }
     
@@ -50,21 +50,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     @IBOutlet private weak var distanceSlider: UISlider!
     
     @IBAction func distance(_ sender: UISlider) {
-        var lookingDistance = ""
-        distanceValue.text = String(Int(sender.value)) + " Kms"
-        lookingDistance = String(Int(sender.value))
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-
-        let ref = Database.database().reference().child("users").child(uid)
-
-        let values = ["lookingDistance": lookingDistance]
-
-        ref.updateChildValues(values, withCompletionBlock: { (err, ref) in
-            if err != nil {
-                print(err ?? "")
-                return
-            }
-        })
+        distanceValue.text = "\(Int(sender.value)) Kms"
     }
 
     @objc func share(recognizer: UITapGestureRecognizer) {
@@ -83,6 +69,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         mailComposerVC.mailComposeDelegate = self
         mailComposerVC.setToRecipients(["contact@swipster.io"])
         mailComposerVC.setSubject("[" + randomString(length: 6) + "]" + " Feedback de " + user!.first_name)
+        mailComposerVC.setMessageBody("\n\n ---\nN'écrivez pas en dessous de cette ligne.\n\(user!.parentUID ?? "")", isHTML: false)
         return mailComposerVC
     }
     
@@ -135,10 +122,11 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     fileprivate func removeAccount(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         showLoadingView(text: "Veuillez patienter...")
-        let refUM = Database.database().reference().child("user-messages").child(uid)
-        refUM.observeSingleEvent(of: .value) { (snapshot) in
+        let ref = Database.database().reference().child("user-messages")
+        ref.child(uid).observeSingleEvent(of: .value) { (snapshot) in
             for child in snapshot.children.allObjects as! [DataSnapshot] {
-                let refMessage = Database.database().reference().child("user-messages").child(uid).child(child.key)
+                let refMessage = ref.child(uid).child(child.key)
+                ref.child(child.key).child(uid).removeValue()
                 refMessage.observeSingleEvent(of: .value) { (snapshot) in
                     for child in snapshot.children.allObjects as! [DataSnapshot] {
                         Database.database().reference().child("messages").child(child.key).observeSingleEvent(of: .value) { (snapshot) in
@@ -153,66 +141,39 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
                                 }
                             }
                         }
-                        Database.database().reference().child("messages").child(child.key).removeValue(completionBlock: { error, ref  in
-                            if error != nil {
-                                print(error ?? "")
-                            }
-                        })
+                        Database.database().reference().child("messages").child(child.key).removeValue()
                     }
                 }
+            }
+            ref.child(uid).removeValue()
+        }
+        
+        Database.database().reference().child("users").child(uid).removeValue { (err, ref) in
+            if err != nil {
+                SwiftEntryKit.dismiss(.all)
+                showPopupMessage(title: "Impossible..", buttonTitle: "Compris !", description: "Une erreur est survenu, veuillez réessayer plus tard !", image: #imageLiteral(resourceName: "ic_error_all_light_48pt")) {
+                    SwiftEntryKit.dismiss()
+                }
+                return
+            }
+            Storage.storage().reference().child("profile_images").child("\(uid).jpg").delete { (err) in
+                Auth.auth().currentUser?.delete(completion: { [weak self] (err) in
+                    self?.navigationController?.viewControllers.removeAll()
+                    let storyBoard: UIStoryboard = UIStoryboard(name: "LoginScreen", bundle: nil)
+                    let vc = storyBoard.instantiateViewController(withIdentifier: "welcomeView") as! ViewController
+                    vc.modalPresentationStyle = .fullScreen
+                    UIApplication.shared.keyWindow?.setRootViewController(vc, options: .init(direction: .toBottom, style: .linear))
+                    SwiftEntryKit.dismiss(.all)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
+                        showPopupMessage(title: "Compte supprimé avec succès", buttonTitle: "J'ai compris", description: "", image: #imageLiteral(resourceName: "ic_done_all_light_48pt")) {
+                            SwiftEntryKit.dismiss(.all)
+                        }
+                    })
+                    UserDefaults.standard.removeObject(forKey: "active")
+                    UserDefaults.standard.synchronize()
+                })
             }
         }
-        let ref = Database.database().reference().child("users").child(uid)
-        ref.removeValue(completionBlock: { error, ref  in
-            if error != nil {
-                print(error ?? "")
-            }
-            let refUserMessage = Database.database().reference().child("user-messages").child(uid)
-            refUserMessage.removeValue(completionBlock: { error, ref  in
-                if error != nil {
-                    print(error ?? "")
-                }
-                let refRacine = Database.database().reference().child("user-messages")
-                refRacine.observeSingleEvent(of: .value) { (snapshot) in
-                    for child in snapshot.children.allObjects as! [DataSnapshot] {
-                        let refMessage = Database.database().reference().child("user-messages").child(child.key)
-                        refMessage.observeSingleEvent(of: .value) { (snapshot) in
-                            for child in snapshot.children.allObjects as! [DataSnapshot] {
-                                if child.key == uid {
-                                    refMessage.child(child.key).removeValue(completionBlock: { error, ref  in
-                                        if error != nil {
-                                            print(error ?? "")
-                                        }
-                                    })
-                                }
-                            }
-                        }
-                    }
-                }
-            })
-            let profilRef = Storage.storage().reference().child("profile_images").child("\(uid).jpg")
-            profilRef.delete { error in
-                if error != nil {
-                    print(error ?? "")
-                }
-            }
-        })
-        
-        Auth.auth().currentUser?.delete(completion: { [weak self] (err) in
-            self?.navigationController?.viewControllers.removeAll()
-            let storyBoard: UIStoryboard = UIStoryboard(name: "LoginScreen", bundle: nil)
-            let vc = storyBoard.instantiateViewController(withIdentifier: "welcomeView") as! ViewController
-            vc.modalPresentationStyle = .fullScreen
-            UIApplication.shared.keyWindow?.setRootViewController(vc, options: .init(direction: .toBottom, style: .linear))
-            SwiftEntryKit.dismiss(.all)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
-                showPopupMessage(title: "Compte supprimé avec succès", buttonTitle: "J'ai compris", description: "", image: #imageLiteral(resourceName: "ic_done_all_light_48pt")) {
-                    SwiftEntryKit.dismiss(.all)
-                }
-            })
-        })
-        UserDefaults.standard.removeObject(forKey: "active")
-        UserDefaults.standard.synchronize()
     }
     
     func showRatingView(attributes: EKAttributes) {
@@ -344,12 +305,6 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         }
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let v = UIView()
-        v.backgroundColor = .clear
-        return v
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -360,6 +315,29 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         configureTapOnSection()
         configureTableViewFooter()
         
+        let panGesture = UIPanGestureRecognizer(target: nil, action:nil)
+        panGesture.cancelsTouchesInView = false
+        ageSlider.addGestureRecognizer(panGesture)
+        
+        distanceSlider.addTarget(self, action: #selector(sliderDidEndSliding(_:)), for: [.touchUpInside, .touchUpOutside])
+    }
+    
+    @objc func sliderDidEndSliding(_ sender: UISlider) {
+        
+        let lookingDistance = "\(Int(sender.value))"
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        let ref = Database.database().reference().child("users").child(uid)
+
+        let values = ["lookingDistance": lookingDistance]
+
+        ref.updateChildValues(values, withCompletionBlock: { [weak self] (err, ref) in
+            if err != nil {
+                print(err ?? "")
+                return
+            }
+            self?.delegate?.didUpdateDetail()
+        })
     }
     
     func configureSegmentedControl() {
@@ -367,60 +345,38 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         segmentedControl.append(title: "Femmes")
         segmentedControl.append(title: "Les deux")
         segmentedControl.font = UIFont(name: "ITCAvantGardePro-Bk", size: 17)!
-        segmentedControl.selectedTextColor = UIColor.purple
-        segmentedControl.indicator.lineView.backgroundColor = UIColor.purple
-        segmentedControl.addTarget(self, action: #selector(changeIndex(segmentedControl:)), for: .valueChanged)
     }
     
     func configureTapOnSection() {
         let shareRecognizer = UITapGestureRecognizer(target: self, action: #selector(share))
-        shareRecognizer.numberOfTapsRequired = 1
-        shareSection.addGestureRecognizer(shareRecognizer)
-        
         let contactRecognizer = UITapGestureRecognizer(target: self, action: #selector(contact))
-        contactRecognizer.numberOfTapsRequired = 1
-        contactSection.addGestureRecognizer(contactRecognizer)
-        
         let policyRecognizer = UITapGestureRecognizer(target: self, action: #selector(confidentiality))
-        policyRecognizer.numberOfTapsRequired = 1
-        policySection.addGestureRecognizer(policyRecognizer)
-        
         let logoutRecognizer = UITapGestureRecognizer(target: self, action: #selector(logout))
-        logoutRecognizer.numberOfTapsRequired = 1
-        logoutSection.addGestureRecognizer(logoutRecognizer)
-        
         let deleteRecognizer = UITapGestureRecognizer(target: self, action: #selector(deleteAccount))
-        deleteRecognizer.numberOfTapsRequired = 1
-        deleteMyAccountSection.addGestureRecognizer(deleteRecognizer)
-        
         let rateTheApp = UITapGestureRecognizer(target: self, action: #selector(rate))
-        rateTheApp.numberOfTapsRequired = 1
-        rateApp.addGestureRecognizer(rateTheApp)
-        
         let tuto = UITapGestureRecognizer(target: self, action: #selector(showTuto))
-        tuto.numberOfTapsRequired = 1
-        tutoView.addGestureRecognizer(tuto)
-        
         let removeAds = UITapGestureRecognizer(target: self, action: #selector(showRemoveAds))
-        removeAds.numberOfTapsRequired = 1
-        removeAdsSection.addGestureRecognizer(removeAds)
-        
         let retorePurchased = UITapGestureRecognizer(target: self, action: #selector(restorePurchased))
-        retorePurchased.numberOfTapsRequired = 1
-        restorePurchasedSection.addGestureRecognizer(retorePurchased)
+        
+        let dictView = [shareRecognizer: shareSection, contactRecognizer: contactSection, policyRecognizer: policySection, logoutRecognizer: logoutSection, deleteRecognizer: deleteMyAccountSection, rateTheApp: rateApp, tuto: tutoView, removeAds: removeAdsSection, retorePurchased: restorePurchasedSection]
+        
+        for tapGesture in dictView {
+            tapGesture.key.numberOfTapsRequired = 1
+            tapGesture.value?.addGestureRecognizer(tapGesture.key)
+        }
     }
     
     func configureTableViewFooter() {
         let tableViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 85))
-        let name = UILabel(frame: CGRect(x: 0, y: 20, width: tableView.frame.width, height: 25))
+        let name = UILabel(frame: CGRect(x: 0, y: 20, width: tableView.frame.width, height: 35))
         name.font = UIFont(name: "Bellota-Regular", size: 28)
-        name.text = "SWIPSTER"
-        name.textColor = UIColor.purple
+        name.text = "Swipster"
+        name.textColor = .purple
         name.textAlignment = .center
-        let version = UILabel(frame: CGRect(x: 0, y: 45, width: tableView.frame.width, height: 20))
+        let version = UILabel(frame: CGRect(x: 0, y: 55, width: tableView.frame.width, height: 20))
         version.font = UIFont(name: "Bellota-Regular", size: 17)
         version.text = getVersion()
-        version.textColor = UIColor.purple
+        version.textColor = .purple
         version.textAlignment = .center
         tableViewFooter.addSubview(name)
         tableViewFooter.addSubview(version)
@@ -453,11 +409,12 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let ref = Database.database().reference().child("users").child(uid)
         let values = ["lookingFor": lookingfor]
-        ref.updateChildValues(values, withCompletionBlock: { (err, ref) in
+        ref.updateChildValues(values, withCompletionBlock: { [weak self] (err, ref) in
             if err != nil {
                 print(err ?? "")
                 return
             }
+            self?.delegate?.didUpdateDetail()
         })
     }
     
@@ -465,10 +422,10 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         distanceSlider.setValue(Float(user!.lookingDist)!, animated: false)
         distanceValue.text = "\(user!.lookingDist) Kms"
         
-        if user!.lookingFor == "female" {
-            segmentedControl.select(index: 1, animated: false)
-        } else if user!.lookingFor == "male" {
+        if user!.lookingFor == "male" {
             segmentedControl.select(index: 0, animated: false)
+        } else if user!.lookingFor == "female" {
+            segmentedControl.select(index: 1, animated: false)
         } else {
             segmentedControl.select(index: 2, animated: false)
         }
@@ -479,36 +436,38 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             switchProfil.setOn(false, animated:false)
         }
         if self.user!.minAge != "" {
-            ageSlider.defaultValueLeftKnob = CGFloat(Double(user!.minAge)!)
-            ageSlider.defaultValueRightKnob = CGFloat(Double(user!.maxAge)!)
+            ageSlider.selectedMinValue = CGFloat(Double(user!.minAge)!)
+            ageSlider.selectedMaxValue = CGFloat(Double(user!.maxAge)!)
         }
         
         ageLabel.text = user!.minAge + " - " + user!.maxAge
+        segmentedControl.addTarget(self, action: #selector(changeIndex(segmentedControl:)), for: .valueChanged)
     }
 
 }
 
-extension SettingsTableViewController: RangeUISliderDelegate {
-    
-    func rangeIsChanging(minValueSelected: CGFloat, maxValueSelected: CGFloat, slider: RangeUISlider){
-        if Int(maxValueSelected) < 22 {
+extension SettingsTableViewController: RangeSeekSliderDelegate {
+    func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
+        if Int(maxValue) < 22 {
             return
         }
-        ageLabel.text = String(Int(minValueSelected)) + " - " + String(Int(maxValueSelected))
+        ageLabel.text = "\(Int(minValue)) - \(Int(maxValue))"
     }
     
-    func rangeChangeFinished(minValueSelected: CGFloat, maxValueSelected: CGFloat, slider: RangeUISlider) {
+    func didEndTouches(in slider: RangeSeekSlider) {
+
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let ref = Database.database().reference().child("users").child(uid)
         
-        let values = ["minAge": String(Int(minValueSelected)), "maxAge": String(Int(maxValueSelected))]
-        
-        ref.updateChildValues(values, withCompletionBlock: { (err, ref) in
+        let values = ["minAge": String(Int(slider.selectedMinValue)), "maxAge": String(Int(slider.selectedMaxValue))]
+
+        ref.updateChildValues(values, withCompletionBlock: { [weak self] (err, ref) in
             if err != nil {
                 print(err ?? "")
                 return
             }
+            self?.delegate?.didUpdateDetail()
         })
     }
 }

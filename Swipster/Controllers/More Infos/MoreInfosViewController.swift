@@ -6,17 +6,18 @@
 //  Copyright © 2019 Daniel Ghrenassia. All rights reserved.
 //
 
-import UIKit
-import AuthenticationServices
 import MXSegmentedControl
-import MobileCoreServices
 import CropViewController
 import SwiftEntryKit
 import Firebase
 
+protocol moreInfosDelegate: AnyObject {
+    func finishLogin(values: [String: Any], image: UIImage)
+}
+
 class MoreInfosViewController: UIViewController {
 
-    @IBOutlet weak var nameTitle: UILabel!
+    @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var textView: UITextView!
     @IBOutlet private weak var imageViewSelector: UIImageView!
@@ -28,8 +29,10 @@ class MoreInfosViewController: UIViewController {
     let imagePickerController = UIImagePickerController()
     var sexe = "male"
     var email, first_name, ageUser: String?
+    weak var delegate: moreInfosDelegate?
     
     @IBAction func selectProfilPic(_ sender: UIButton) {
+        nameTextField.endEditing(true)
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let takePic = UIAlertAction(title: "Caméra", style: .default, handler: { [weak self] (_) in
@@ -72,6 +75,13 @@ class MoreInfosViewController: UIViewController {
         configureSegmentedControl()
         configureImagePickerController()
         
+        if let name = first_name {
+            nameTextField.text = "Hello \(name) !"
+            nameTextField.isUserInteractionEnabled = false
+        }
+        
+        nameTextField.delegate = self
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(cancelDatePicker))
         view.addGestureRecognizer(tapGestureRecognizer)
         
@@ -84,10 +94,6 @@ class MoreInfosViewController: UIViewController {
     
     func configureImagePickerController() {
         imagePickerController.delegate = self
-        imagePickerController.navigationBar.isTranslucent = false
-        imagePickerController.navigationBar.barTintColor = .purple
-        imagePickerController.navigationBar.tintColor = .white
-        imagePickerController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: "Bellota-Regular", size: 25)!]
         imagePickerController.mediaTypes = ["public.image"]
     }
     
@@ -100,9 +106,6 @@ class MoreInfosViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         
-        if let name = first_name {
-            nameTitle.text = "Hello \(name) !"
-        }
         configureImagePicker()
         configureDateTextField()
         
@@ -197,34 +200,30 @@ class MoreInfosViewController: UIViewController {
     }
     
     @IBAction func loginButtonPressed(_ sender: UIButton) {
-        if imageViewSelector.image != nil {
-            if !datePickerTextField.text!.isEmpty {
-                guard let image = imageViewSelector.image else { return }
-                guard let uid = Auth.auth().currentUser?.uid else { return }
-                let storageRef = Storage.storage().reference().child("profile_images").child("\(uid).jpg")
-                uploadImageToFirebase(ref: storageRef, image: image) { [weak self] (imageUrl) in
-                    let lookingFor = self?.sexe == "male" ? "female" : "male"
-                    let values = ["first_name": self?.first_name, "birthday": self?.ageUser, "email": self?.email, "gender": self?.sexe, "pictureURL": imageUrl, "lookingFor": lookingFor, "lookingDistance": "26", "minAge":"18", "maxAge":"26", "public": "true"]
-                    createUser(uid: uid, values: values as [String : AnyObject], completion: { [weak self] in
-                        self?.navigationController?.viewControllers.removeAll()
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        let vc = storyboard.instantiateViewController(withIdentifier: "swipe")
-                        UIApplication.shared.keyWindow?.setRootViewController(vc, options: .init(direction: .toTop, style: .linear))
-                        SwiftEntryKit.dismiss()
-                    })
+        if !nameTextField.text!.isEmpty {
+            if let image = imageViewSelector.image {
+                if !datePickerTextField.text!.isEmpty {
+                    let lookingFor = sexe == "male" ? "female" : "male"
+                    let values = ["first_name": first_name!, "birthday": ageUser!, "email": email ?? "", "gender": sexe, "lookingFor": lookingFor, "lookingDistance": "26", "minAge":"18", "maxAge":"26", "public": "true"] as [String: Any]
+                    delegate?.finishLogin(values: values, image: image)
+                    dismiss(animated: true)
+                } else {
+                    let alert = UIAlertController(title: "Erreur !", message: "Veuillez selectionner votre date de naissance !", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    present(alert, animated: true)
                 }
             } else {
-                let alert = UIAlertController(title: "Erreur !", message: "Veuillez selectionner votre date de naissance !", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Erreur !", message: "Veuillez selectionner votre photo de profil !", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 present(alert, animated: true)
             }
         } else {
-            let alert = UIAlertController(title: "Erreur !", message: "Veuillez selectionner votre photo de profil !", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Erreur !", message: "Veuillez entrez votre prénom !", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
             present(alert, animated: true)
         }
+        
     }
-    
 }
 
 extension MoreInfosViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -251,6 +250,16 @@ extension MoreInfosViewController: CropViewControllerDelegate {
     public func updateImageViewWithImage(_ image: UIImage, fromCropViewController cropViewController: CropViewController) {
         imageViewSelector.image = image
         cropViewController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MoreInfosViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        first_name = textField.text
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        return textField.endEditing(false)
     }
 }
 

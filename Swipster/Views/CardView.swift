@@ -120,7 +120,7 @@ class CardViewLabel: UILabel {
         super.init(frame: frame)
         
         textColor = .white
-        font = UIFont.boldSystemFont(ofSize: 18)
+        font = .boldSystemFont(ofSize: 18)
         textAlignment = .center
         
         layer.cornerRadius = frame.height / 2

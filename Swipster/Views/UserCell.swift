@@ -6,7 +6,6 @@
 //  Copyright © 2018 Swipster Inc. All rights reserved.
 //
 
-import UIKit
 import FirebaseDatabase
 import Firebase
 

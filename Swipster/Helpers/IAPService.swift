@@ -9,7 +9,6 @@
 import StoreKit
 import SwiftEntryKit
 import Firebase
-import FirebaseDatabase
 
 enum IAPProduct: String {
     case nonConsumable = "com.swipsterinc.swipster.removeads"

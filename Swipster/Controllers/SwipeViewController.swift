@@ -6,11 +6,8 @@
 //  Copyright © 2018 Swipster Inc. All rights reserved.
 //
 
-import UIKit
-import FacebookLogin
 import CoreLocation
 import Firebase
-import FirebaseDatabase
 import GoogleMobileAds
 import SwiftEntryKit
 
@@ -47,24 +44,10 @@ class SwipeViewController: UIViewController  {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? MenuViewController {
             vc.user = user
+            vc.delegate = self
+        } else if segue.identifier == "swipeFromRight" || segue.identifier == "slideFromRight" {
+            chatBarButton.image = #imageLiteral(resourceName: "chat")
         }
-    }
-    
-    func goMessagesAndResetBadge(){
-        chatBarButton.image = #imageLiteral(resourceName: "chat")
-        performSegue(withIdentifier: "swipeFromRight", sender: self)
-    }
-    
-    @IBAction func goToMessages(_ sender: UIBarButtonItem) {
-        goMessagesAndResetBadge()
-    }
-    
-    @IBAction func swipeToMessages(_ sender: Any) {
-        goMessagesAndResetBadge()
-    }
-    
-    @IBAction func goToMenu(_ sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "swipeFromLeft", sender: self)
     }
     
     @IBAction func activateProfil(_ sender: Any) {
@@ -116,6 +99,11 @@ class SwipeViewController: UIViewController  {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        pulseLayer.position = view.center
+        pulseLayer.radius = view.frame.width / 2 - 30
+        view.layer.addSublayer(pulseLayer)
+        
         if !hideAds() {
             bannerView.rootViewController = self
             bannerView.load(GADRequest())
@@ -126,8 +114,6 @@ class SwipeViewController: UIViewController  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        addNavbarImage()
         
         saveUserToLocal()
         
@@ -170,19 +156,10 @@ class SwipeViewController: UIViewController  {
         locationManager.startUpdatingLocation()
         locationManager.startMonitoringSignificantLocationChanges()
     }
-
-    @IBOutlet private weak var navBar: UINavigationBar!
-    func addNavbarImage() {
-        
-        let image = #imageLiteral(resourceName: "icon")
-        let size = CGSize(width: 30, height: 30)
-        let imageView = UIImageView(image: image.resizedImageWithinRect(rectSize: size))
-        imageView.contentMode = .scaleAspectFit
-        navBar.topItem?.titleView = imageView
-    }
     
     func settingsPerso() {
         let usersReference = ref.child("users")
+        usersReference.keepSynced(true)
         usersReference.observeSingleEvent(of: .value) { [weak self] (snapshot) in
             guard let self = self else { return }
             if snapshot.hasChild(self.uid!) {
@@ -190,11 +167,11 @@ class SwipeViewController: UIViewController  {
                 self.ref.child("users").child(self.uid!).observeSingleEvent(of: .value) { [weak self] (snapshot) in
                     guard let self = self else { return }
                     guard let dict = snapshot.value as? [String: Any] else { return }
-                    var me = User(dictionary: dict)
-                    self.view.isUserInteractionEnabled = true
-                    me.seenArray = dict["seen"] as? [String: String]
+                    let me = User(dictionary: dict)
                     if me.first_name != "" {
                         self.user = me
+                        self.view.isUserInteractionEnabled = true
+                        self.user?.seenArray = dict["seen"] as? [String: String]
                         ImageService.getImage(withURL: URL(string: me.pictureURL)) { (image) in }
                         self.user?.parentUID = self.uid
                         if me.position != nil {
@@ -221,12 +198,11 @@ class SwipeViewController: UIViewController  {
     
     func logoutUserSwipe() {
         logoutUser {
+            self.navigationController?.viewControllers.removeAll()
             let storyboard = UIStoryboard(name: "LoginScreen", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "welcomeView")
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: false, completion: {
-                SwiftEntryKit.dismiss(.displayed)
-            })
+            UIApplication.shared.keyWindow?.setRootViewController(vc, options: .init(direction: .toBottom, style: .linear))
+            SwiftEntryKit.dismiss(.displayed)
         }
     }
     
@@ -245,7 +221,6 @@ class SwipeViewController: UIViewController  {
             activatePublicButton.isHidden = false
         } else {
             let query = ref.child("users")
-            query.keepSynced(true)
             query.observeSingleEvent(of: .value) { [weak self] (snapshot) in
                 guard let self = self else { return }
                 for child in snapshot.children.allObjects as! [DataSnapshot] {
@@ -264,10 +239,6 @@ class SwipeViewController: UIViewController  {
                                 card.user?.parentUID = child.key
                                 card.reportButton.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleReportTouched)))
                                 self.cards.append(card)
-                                self.layoutCards()
-                                if self.cards.count > 5 {
-                                    self.configureNativeAd()
-                                }
                             }
                         }
                     }
@@ -275,6 +246,11 @@ class SwipeViewController: UIViewController  {
                 if (self.cards.count == 0) {
                     self.pulseLayer.stop()
                     self.hideButtons(state: true)
+                } else {
+                    self.layoutCards()
+                }
+                if self.cards.count > 5 {
+                    self.configureNativeAd()
                 }
             }
         }
@@ -561,28 +537,30 @@ class SwipeViewController: UIViewController  {
     func choiceByButton() {
         if cards[0] is AdCardView {
             adLoader.load(GADRequest())
-        }
-        switch choice {
-        case .love:
-            (cards[0] as! ImageCard).showOptionLabel(option: .like3)
-            emojiOptionsOverlay.showEmoji(for: .like3)
-            rotateImage(xTranslation: 10, yTranslation: -20)
-            add()
-            break
-        case .cheers:
-            (cards[0] as! ImageCard).showOptionLabel(option: .like2)
-            emojiOptionsOverlay.showEmoji(for: .like2)
             rotateImage(xTranslation: 10, yTranslation: 0)
-            add()
-            break
-        case .hot:
-            (cards[0] as! ImageCard).showOptionLabel(option: .like1)
-            emojiOptionsOverlay.showEmoji(for: .like1)
-            rotateImage(xTranslation: 10, yTranslation: 20)
-            add()
-            break
-        default:
-            break
+        } else {
+            switch choice {
+            case .love:
+                (cards[0] as! ImageCard).showOptionLabel(option: .like3)
+                emojiOptionsOverlay.showEmoji(for: .like3)
+                rotateImage(xTranslation: 10, yTranslation: -20)
+                add()
+                break
+            case .cheers:
+                (cards[0] as! ImageCard).showOptionLabel(option: .like2)
+                emojiOptionsOverlay.showEmoji(for: .like2)
+                rotateImage(xTranslation: 10, yTranslation: 0)
+                add()
+                break
+            case .hot:
+                (cards[0] as! ImageCard).showOptionLabel(option: .like1)
+                emojiOptionsOverlay.showEmoji(for: .like1)
+                rotateImage(xTranslation: 10, yTranslation: 20)
+                add()
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -609,7 +587,8 @@ class SwipeViewController: UIViewController  {
             if choice != .nothing {
                 ref.child("users").child(parentUID!).child(choiceToString).observeSingleEvent(of: .value) { [weak self] (snapshot) in
                     guard let self = self else { return }
-                    if snapshot.hasChild(self.user!.uid) || snapshot.hasChild(self.user!.parentUID!) {
+                    let uid = self.user!.uid.isEmpty ? "nil" : self.user!.uid
+                    if snapshot.hasChild(uid) || snapshot.hasChild(self.user!.parentUID!) {
                         var properties: [String: String] = [:]
                         switch self.choice {
                         case .love:
@@ -763,9 +742,6 @@ extension SwipeViewController: CLLocationManagerDelegate {
                          didChangeAuthorization status: CLAuthorizationStatus) {
         
         view.isUserInteractionEnabled = false
-        pulseLayer.position = view.center
-        pulseLayer.radius = view.frame.width / 2 - 30
-        view.layer.addSublayer(pulseLayer)
         pulseLayer.animate()
         
         if isAppAlreadyLaunchedOnce() == false {
@@ -835,5 +811,21 @@ extension SwipeViewController: GADUnifiedNativeAdLoaderDelegate {
     
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
         print("did fail \(error)")
+    }
+}
+
+extension SwipeViewController: MenuUpdateDelegate {
+    func didUpdate() {
+        for i in 0...4 {
+            if cards.indices.contains(i) {
+                let card = cards[i] as! UIView
+                card.removeFromSuperview()
+            }
+        }
+        cards.removeAll()
+        buttonView.isHidden = true
+        pulseLayer.animate()
+        pulseLayer.radius = view.frame.width / 2 - 30
+        settingsPerso()
     }
 }

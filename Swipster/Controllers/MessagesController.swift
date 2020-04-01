@@ -48,26 +48,19 @@ class MessagesController: UITableViewController {
     }
     
     func customDismiss() {
-        navigationItem.titleView = UIView()
-        navigationController?.navigationBar.backItem?.title = ""
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let resultViewController = storyBoard.instantiateViewController(withIdentifier: "swipe") as! SwipeViewController
-        
-        let src = self
-        let dst = resultViewController
-        src.view.superview?.insertSubview(dst.view, aboveSubview: src.view)
-        dst.view.transform = CGAffineTransform(translationX: -src.view.frame.size.width, y: 0)
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIView.AnimationOptions.curveEaseInOut, animations: {
-            dst.view.transform = CGAffineTransform(translationX: 0, y: 0)
-        }) { (finished) in
-            src.dismiss(animated: false)
-        }
+        let transition: CATransition = CATransition()
+        transition.duration = 0.25
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.type = CATransitionType.moveIn
+        transition.subtype = CATransitionSubtype.fromLeft
+        view.window!.layer.add(transition, forKey: nil)
+        dismiss(animated: false, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchUserAndSetupNavBarTitle()
+        fetchUserMessages()
         
         tableView.register(UserCell.self, forCellReuseIdentifier: cellId)
         tableView.tableFooterView = UIView()
@@ -89,13 +82,6 @@ class MessagesController: UITableViewController {
                 tableView.tableHeaderView?.backgroundColor = .systemBackground
             }
         }
-    }
-    
-    func fetchUserAndSetupNavBarTitle() {
-        messages.removeAll()
-        messagesDictionary.removeAll()
-        tableView.reloadData()
-        fetchUserMessages()
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -298,10 +284,6 @@ class MessagesController: UITableViewController {
         let message = messages[indexPath.row]
         cell.message = message
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

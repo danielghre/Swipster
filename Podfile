@@ -6,17 +6,18 @@ target 'Swipster' do
   use_frameworks!
 
   # Pods for Firebase
-  pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
+  pod 'Firebase/Analytics'
   
-  # Pod for Google Ads
+  # Pod for Google AdMob
   pod 'Firebase/AdMob'
   
-  #Pod for SegmentedControl & ImagePicker
+  #Pod for SegmentedControl & ImagePicker & RangeSlider
   pod 'MXSegmentedControl'
   pod 'CropViewController'
+  pod 'RangeSeekSlider'
   
 end

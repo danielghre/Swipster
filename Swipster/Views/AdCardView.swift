@@ -7,16 +7,6 @@
 //
 
 import Firebase
-import Foundation
-
-extension UIView {
-   func roundCorners(corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        layer.mask = mask
-    }
-}
 
 class AdCardView: GADUnifiedNativeAdView, CardsView {
     
@@ -102,7 +92,7 @@ class AdCardView: GADUnifiedNativeAdView, CardsView {
     }()
     
     override func layoutSubviews() {
-        mainImage.roundCorners(corners: [.topLeft, .topRight], radius: 10.0)
+        mainImage.roundCorners([.topLeft, .topRight], radius: 10.0)
         titleLabel.leftAnchor.constraint(equalTo: backgroundView.leftAnchor, constant: 10).isActive = true
         advertiserLabel.leftAnchor.constraint(equalTo: backgroundView.leftAnchor, constant: 10).isActive = true
         descriptionText.leftAnchor.constraint(equalTo: backgroundView.leftAnchor, constant: 10).isActive = true

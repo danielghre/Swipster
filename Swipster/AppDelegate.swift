@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import FirebaseInstanceID
 import FirebaseMessaging
 import UserNotifications
 import SwiftEntryKit
@@ -17,7 +16,7 @@ import FacebookCore
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
     
-    var token, firebaseToken: String?
+    var firebaseToken: String?
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -25,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         Database.database().isPersistenceEnabled = true
+        
+        configureNavBar()
         
         if UserDefaults.standard.bool(forKey: "active") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -39,6 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate {
         AppUpdater.shared.showUpdate(withConfirmation: true)
         
         return true
+    }
+    
+    func configureNavBar(){
+        UINavigationBar.appearance().barTintColor = .purple
+        UINavigationBar.appearance().tintColor = .white
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -186,13 +192,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         } else {
             // Fallback on earlier versions
         }
-    }
-    
-    func application(_ application: UIApplication,didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data){
-        let tokenParts = deviceToken.map { data -> String in
-            return String(format: "%02.2hhx", data)
-        }
-        token = tokenParts.joined()
     }
     
     func application(_ application: UIApplication,

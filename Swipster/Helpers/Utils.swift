@@ -8,7 +8,6 @@
 
 import SwiftEntryKit
 import Firebase
-import FirebaseDatabase
 import Photos
 import FacebookLogin
 

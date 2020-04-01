@@ -34,9 +34,9 @@ class MatchView: UIView {
         
         Bundle.main.loadNibNamed("MatchView", owner: self, options: nil)
         addSubview(contentView)
-        contentView.frame = self.bounds
+        contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        swiper.tintColor = UIColor.white
+        swiper.tintColor = .white
         gradientView.layer.borderWidth = 4
         gradientView.layer.borderColor = UIColor.white.withAlphaComponent(0.75).cgColor
         matchPic.setRounded()

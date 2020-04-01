@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/facebook/facebook-ios-sdk.git",
         "state": {
           "branch": null,
-          "revision": "5d5de15f6a9915d1e2cf63ea8d8c58f2b1e62ee9",
-          "version": "6.0.0"
+          "revision": "5033e483f9b4c2e97344ac6a4044106de7f90585",
+          "version": "6.3.0"
         }
       },
       {
@@ -17,15 +17,6 @@
           "branch": null,
           "revision": "6be62decbe508d8fc8f9dbafc349d05bab03c38b",
           "version": "3.0.1"
-        }
-      },
-      {
-        "package": "RangeUISlider",
-        "repositoryURL": "https://github.com/chicio/RangeUISlider.git",
-        "state": {
-          "branch": "master",
-          "revision": "bb3acbd8e658e89324253eb71f965bbe67decf77",
-          "version": null
         }
       },
       {
