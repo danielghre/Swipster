@@ -16,21 +16,21 @@ class PremiumViewController: UIViewController, PremiumPageViewControllerDelegate
     @IBAction func laterButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    @IBAction func subscibe(_ sender: Any) {
-        switch subscriptionLenght {
+    @IBAction func subscribe(_ sender: Any) {
+        switch subscriptionLength {
         case 1:
-            print("subscribe for \(subscriptionLenght) months")
-            IAPService.shared.purshase(product: .oneMonthSubscription)
+            print("subscribe for \(subscriptionLength) months")
+            IAPService.shared.purchase(product: .oneMonthSubscription)
         case 6:
-            print("subscribe for \(subscriptionLenght) months")
+            print("subscribe for \(subscriptionLength) months")
         case 12:
-            print("subscribe for \(subscriptionLenght) months")
+            print("subscribe for \(subscriptionLength) months")
         default:
             break
         }
     }
     
-    var subscriptionLenght = 6
+    var subscriptionLength = 6
     
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var oneMonth: UIView!
@@ -46,26 +46,26 @@ class PremiumViewController: UIViewController, PremiumPageViewControllerDelegate
         oneMonth.addGestureRecognizer(tapGestureRecognizerOneMonth)
         let tapGestureRecognizerSixMonth = UITapGestureRecognizer(target: self, action: #selector(handleSelectViewForSixMonth))
         sixMonths.addGestureRecognizer(tapGestureRecognizerSixMonth)
-        let tapGestureRecognizerOneyear = UITapGestureRecognizer(target: self, action: #selector(handleSelectViewForOneYear))
-        oneYear.addGestureRecognizer(tapGestureRecognizerOneyear)
+        let tapGestureRecognizerOneYear = UITapGestureRecognizer(target: self, action: #selector(handleSelectViewForOneYear))
+        oneYear.addGestureRecognizer(tapGestureRecognizerOneYear)
     }
     
     @objc func handleSelectViewForOneMonth(){
-        subscriptionLenght = 1
+        subscriptionLength = 1
         oneMonth.layer.borderWidth = 6
         sixMonths.layer.borderWidth = 2
         oneYear.layer.borderWidth = 2
     }
     
     @objc func handleSelectViewForSixMonth(){
-        subscriptionLenght = 6
+        subscriptionLength = 6
         sixMonths.layer.borderWidth = 6
         oneMonth.layer.borderWidth = 2
         oneYear.layer.borderWidth = 2
     }
     
     @objc func handleSelectViewForOneYear(){
-        subscriptionLenght = 12
+        subscriptionLength = 12
         oneYear.layer.borderWidth = 6
         oneMonth.layer.borderWidth = 2
         sixMonths.layer.borderWidth = 2

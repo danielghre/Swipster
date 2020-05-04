@@ -3,7 +3,7 @@
 //  Swipster
 //
 //  Created by Daniel Ghrenassia on 02/01/2019.
-//  Copyright © 2019 SwipSter Inc. All rights reserved.
+//  Copyright © 2019 Swipster Inc. All rights reserved.
 //
 
 import SwiftEntryKit
@@ -18,10 +18,10 @@ public enum choiceDone: String {
     case hot = "hot"
 }
 
-func sendEmail(subject: String, text: String, user: User, fromUID: String, fromName: String, completion: @escaping () -> Void) {
-    let textToSend = "<html><div>\(text)<br><p>Nom d'Utilisataeur: \(user.first_name)<br>Id: \(user.parentUID ?? "UID not found")<br>\(user.email)</p><p>Envoyé le \(Date().toString()) par \(fromName)<br>Id: \(fromUID)</div></html>"
+func sendEmail(subject: String, text: String, user: User, fromName: String, completion: @escaping () -> Void) {
+    let textToSend = "<html><div>\(text)<br><p>Nom d'utilisateur: \(user.first_name)<br>Id: \(user.parentUID ?? "UID not found")<br>\(user.email)</p><p>Envoyé le \(Date().toString()) par \(fromName)<br>Id: \(Auth.auth().currentUser!.uid)</div></html>"
     let params = [
-        "api_user": "Swipy",
+        "api_user": "Swipster",
         "api_key": "amisraelhai26D",
         "to": "contact@swipster.io",
         "toname": "Signal Swipster",
@@ -62,7 +62,7 @@ func sendEmail(subject: String, text: String, user: User, fromUID: String, fromN
     session.finishTasksAndInvalidate()
 }
 
-func report(user: User, fromUID: String, fromName: String, isMatch: Bool, completion: @escaping () -> Void) {
+func report(user: User, fromName: String, isMatch: Bool, completion: @escaping () -> Void) {
     var attributes: EKAttributes
     attributes = EKAttributes.centerFloat
     attributes.windowLevel = .alerts
@@ -90,7 +90,7 @@ func report(user: User, fromUID: String, fromName: String, isMatch: Bool, comple
     let spamButtonLabel = EKProperty.LabelContent(text: "SPAM", style: labelStyle)
     let spamButton = EKProperty.ButtonContent(label: spamButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.cancelRed.withAlphaComponent(0.05))) {
         showLoadingView(text: "Envoi en cours...")
-        sendEmail(subject: subject, text: "SPAM", user: user, fromUID: fromUID, fromName: fromName, completion: {
+        sendEmail(subject: subject, text: "SPAM", user: user, fromName: fromName, completion: {
             completion()
         })
     }
@@ -98,7 +98,7 @@ func report(user: User, fromUID: String, fromName: String, isMatch: Bool, comple
     let picsButtonLabel = EKProperty.LabelContent(text: "PHOTOS INAPPROPRIÉES", style: labelStyle)
     let picsButton = EKProperty.ButtonContent(label: picsButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.cancelRed.withAlphaComponent(0.05))) {
         showLoadingView(text: "Envoi en cours...")
-        sendEmail(subject: subject, text: "PHOTOS INAPPROPRIÉES", user: user, fromUID: fromUID, fromName: fromName, completion: {
+        sendEmail(subject: subject, text: "PHOTOS INAPPROPRIÉES", user: user, fromName: fromName, completion: {
             completion()
         })
     }
@@ -106,7 +106,7 @@ func report(user: User, fromUID: String, fromName: String, isMatch: Bool, comple
     let ageButtonLabel = EKProperty.LabelContent(text: "ÂGE NON CONFORME", style: labelStyle)
     let ageButton = EKProperty.ButtonContent(label: ageButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.cancelRed.withAlphaComponent(0.05))) {
         showLoadingView(text: "Envoi en cours...")
-        sendEmail(subject: subject, text: "ÂGE NON CONFORME", user: user, fromUID: fromUID, fromName: fromName, completion: {
+        sendEmail(subject: subject, text: "ÂGE NON CONFORME", user: user, fromName: fromName, completion: {
             completion()
         })
     }
@@ -114,7 +114,7 @@ func report(user: User, fromUID: String, fromName: String, isMatch: Bool, comple
     let otherButtonLabel = EKProperty.LabelContent(text: "AUTRE", style: labelStyle)
     let otherButton = EKProperty.ButtonContent(label: otherButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  EKColor(UIColor.cancelRed.withAlphaComponent(0.05))) {
         showLoadingView(text: "Envoi en cours...")
-        sendEmail(subject: subject, text: "AUTRE", user: user, fromUID: fromUID, fromName: fromName, completion: {
+        sendEmail(subject: subject, text: "AUTRE", user: user, fromName: fromName, completion: {
             completion()
         })
     }

@@ -50,16 +50,16 @@ class MoreInfosViewController: UIViewController {
         })
         takePic.setValue(UIImage.init(named: "camera-icon"), forKey: "image")
         
-        let picLibraby = UIAlertAction(title: "Bibliothèque Photo", style: .default, handler: { [weak self] (_) in
+        let picLibrary = UIAlertAction(title: "Bibliothèque Photo", style: .default, handler: { [weak self] (_) in
             guard let self = self else { return }
             checkLibraryPermission { [weak self] in
                 self?.imagePickerController.sourceType = .photoLibrary
                 self?.present(self!.imagePickerController, animated: true)
             }
         })
-        picLibraby.setValue(UIImage.init(named: "add"), forKey: "image")
+        picLibrary.setValue(UIImage.init(named: "add"), forKey: "image")
         
-        [takePic, picLibraby].forEach {
+        [takePic, picLibrary].forEach {
             $0.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alertController.addAction($0)
         }
@@ -143,7 +143,7 @@ class MoreInfosViewController: UIViewController {
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "OK", style: .plain, target: self, action: #selector(doneDatePicker))
 
-        toolBar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        toolBar.setItems([doneButton, spaceButton, cancelButton], animated: false)
 
         datePickerTextField.inputAccessoryView = toolBar
         datePickerTextField.inputView = datePicker
@@ -208,12 +208,12 @@ class MoreInfosViewController: UIViewController {
                     delegate?.finishLogin(values: values, image: image)
                     dismiss(animated: true)
                 } else {
-                    let alert = UIAlertController(title: "Erreur !", message: "Veuillez selectionner votre date de naissance !", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Erreur !", message: "Veuillez sélectionner votre date de naissance !", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                     present(alert, animated: true)
                 }
             } else {
-                let alert = UIAlertController(title: "Erreur !", message: "Veuillez selectionner votre photo de profil !", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Erreur !", message: "Veuillez sélectionner votre photo de profil !", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 present(alert, animated: true)
             }

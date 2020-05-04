@@ -191,14 +191,14 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         let alertController: UIAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Signaler " + (chatUser?.first_name)!, style: .destructive, handler: { [weak self] (_) in
             guard let self = self else { return }
-            report(user: self.chatUser!, fromUID: self.my.parentUID!, fromName: self.my.first_name, isMatch: true, completion: {})
+            report(user: self.chatUser!, fromName: self.my.first_name, isMatch: true, completion: {})
         }))
         alertController.addAction(UIAlertAction(title: "Annuler", style: .cancel))
         present(alertController, animated: true)
     }
     
     var customInputView: UIView!
-    var sendButton, addMediaButtom: UIButton!
+    var sendButton, addMediaButton: UIButton!
     let textField = FlexibleTextView()
     
     override var inputAccessoryView: UIView? {
@@ -234,24 +234,24 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             sendButton.addTarget(self, action: #selector(handleSend), for: .touchUpInside)
             customInputView.addSubview(sendButton)
             
-            addMediaButtom = UIButton(type: .system)
-            addMediaButtom.tintColor = .purple
-            addMediaButtom.setImage(UIImage(imageLiteralResourceName: "camera-filled-icon").withRenderingMode(.alwaysTemplate), for: .normal)
-            addMediaButtom.contentEdgeInsets = UIEdgeInsets(top: 9, left: 0, bottom: 5, right: 0)
-            addMediaButtom.addTarget(self, action: #selector(handleUploadTap), for: .touchUpInside)
-            customInputView.addSubview(addMediaButtom)
+            addMediaButton = UIButton(type: .system)
+            addMediaButton.tintColor = .purple
+            addMediaButton.setImage(UIImage(imageLiteralResourceName: "camera-filled-icon").withRenderingMode(.alwaysTemplate), for: .normal)
+            addMediaButton.contentEdgeInsets = UIEdgeInsets(top: 9, left: 0, bottom: 5, right: 0)
+            addMediaButton.addTarget(self, action: #selector(handleUploadTap), for: .touchUpInside)
+            customInputView.addSubview(addMediaButton)
             
             textField.translatesAutoresizingMaskIntoConstraints = false
             
-            for button in [sendButton, addMediaButtom] {
+            for button in [sendButton, addMediaButton] {
                 button!.translatesAutoresizingMaskIntoConstraints = false
                 button!.setContentHuggingPriority(UILayoutPriority(rawValue: 1000), for: NSLayoutConstraint.Axis.horizontal)
                 button!.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 1000), for: NSLayoutConstraint.Axis.horizontal)
             }
             
-            addMediaButtom.leadingAnchor.constraint(equalTo: customInputView.leadingAnchor, constant: 8).isActive = true
-            addMediaButtom.trailingAnchor.constraint(equalTo: textField.leadingAnchor,constant: -8).isActive = true
-            addMediaButtom.bottomAnchor.constraint(equalTo: customInputView.layoutMarginsGuide.bottomAnchor, constant: -5).isActive = true
+            addMediaButton.leadingAnchor.constraint(equalTo: customInputView.leadingAnchor, constant: 8).isActive = true
+            addMediaButton.trailingAnchor.constraint(equalTo: textField.leadingAnchor,constant: -8).isActive = true
+            addMediaButton.bottomAnchor.constraint(equalTo: customInputView.layoutMarginsGuide.bottomAnchor, constant: -5).isActive = true
             
             textField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -8).isActive = true
             textField.topAnchor.constraint(equalTo: customInputView.topAnchor, constant: 8).isActive = true
@@ -283,16 +283,16 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         })
         takePic.setValue(UIImage.init(named: "camera-icon"), forKey: "image")
         
-        let picLibraby = UIAlertAction(title: "Bibliothèque Photo et Vidéo", style: .default, handler: { [weak self] (_) in
+        let picLibrary = UIAlertAction(title: "Bibliothèque Photo et Vidéo", style: .default, handler: { [weak self] (_) in
             guard let self = self else { return }
             checkLibraryPermission { [weak self] in
                 self?.imagePickerController.sourceType = .photoLibrary
                 self?.present(self!.imagePickerController, animated: true)
             }
         })
-        picLibraby.setValue(UIImage.init(named: "add"), forKey: "image")
+        picLibrary.setValue(UIImage.init(named: "add"), forKey: "image")
         
-        [takePic, picLibraby].forEach {
+        [takePic, picLibrary].forEach {
             $0.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alertController.addAction($0)
         }
@@ -476,9 +476,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     var cellText = ""
     var messageId = ""
     var indexPath = IndexPath()
-    @objc func handleLongPress(gestureReconizer: UILongPressGestureRecognizer) {
-        if gestureReconizer.state == UIGestureRecognizer.State.began {
-            let point = gestureReconizer.location(in: collectionView)
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            let point = gestureRecognizer.location(in: collectionView)
             indexPath = collectionView.indexPathForItem(at: point)!
             let cell: ChatMessageCell? = collectionView.cellForItem(at: indexPath) as! ChatMessageCell?
             cellText = cell?.textView.text ?? ""

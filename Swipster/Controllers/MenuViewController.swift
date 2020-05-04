@@ -183,16 +183,16 @@ class MenuViewController: UIViewController, CLLocationManagerDelegate {
         })
         takePic.setValue(UIImage.init(named: "camera-icon"), forKey: "image")
         
-        let picLibraby = UIAlertAction(title: "Bibliothèque Photo", style: .default, handler: { [weak self] (_) in
+        let picLibrary = UIAlertAction(title: "Bibliothèque Photo", style: .default, handler: { [weak self] (_) in
             guard let self = self else { return }
             checkLibraryPermission { [weak self] in
                 self?.imagePickerController.sourceType = .photoLibrary
                 self?.present(self!.imagePickerController, animated: true)
             }
         })
-        picLibraby.setValue(UIImage.init(named: "add"), forKey: "image")
+        picLibrary.setValue(UIImage.init(named: "add"), forKey: "image")
         
-        [takePic, picLibraby].forEach {
+        [takePic, picLibrary].forEach {
             $0.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             alertController.addAction($0)
         }

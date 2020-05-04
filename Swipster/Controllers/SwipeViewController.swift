@@ -77,7 +77,7 @@ class SwipeViewController: UIViewController  {
     }
     
     @IBOutlet private weak var cheersImageView: UIButton!
-    @IBAction func cheersImgeViewButton(_ sender: UIButton) {
+    @IBAction func cheersImageViewButton(_ sender: UIButton) {
         cheersImageView.isUserInteractionEnabled = false
         choice = .cheers
         choiceByButton()
@@ -162,9 +162,13 @@ class SwipeViewController: UIViewController  {
         usersReference.keepSynced(true)
         usersReference.observeSingleEvent(of: .value) { [weak self] (snapshot) in
             guard let self = self else { return }
-            if snapshot.hasChild(self.uid!) {
+            guard let uid = self.uid else {
+                self.logoutUserSwipe()
+                return
+            }
+            if snapshot.hasChild(uid) {
                 getFcmToken()
-                self.ref.child("users").child(self.uid!).observeSingleEvent(of: .value) { [weak self] (snapshot) in
+                self.ref.child("users").child(uid).observeSingleEvent(of: .value) { [weak self] (snapshot) in
                     guard let self = self else { return }
                     guard let dict = snapshot.value as? [String: Any] else { return }
                     let me = User(dictionary: dict)
@@ -173,7 +177,6 @@ class SwipeViewController: UIViewController  {
                         self.view.isUserInteractionEnabled = true
                         self.user?.seenArray = dict["seen"] as? [String: String]
                         ImageService.getImage(withURL: URL(string: me.pictureURL)) { (image) in }
-                        self.user?.parentUID = self.uid
                         if me.position != nil {
                             self.showCards()
                         }
@@ -257,7 +260,7 @@ class SwipeViewController: UIViewController  {
     }
     
     @objc func handleReportTouched(gesture: UITapGestureRecognizer){
-        report(user: (cards[0] as! ImageCard).user!, fromUID: user?.parentUID ?? "uid not found", fromName: user!.first_name, isMatch: false, completion: { [weak self] in
+        report(user: (cards[0] as! ImageCard).user!, fromName: user!.first_name, isMatch: false, completion: { [weak self] in
             self?.swipeTheUserForSignal()
         })
     }
@@ -418,7 +421,7 @@ class SwipeViewController: UIViewController  {
     var cardAttachmentBehavior: UIAttachmentBehavior!
     /// This method handles the swiping gesture on each card and shows the appropriate emoji based on the card's center.
     @objc func handleCardPan(sender: UIPanGestureRecognizer) {
-        // if we're in the process of hiding a card, don't let the user interace with the cards yet
+        // if we're in the process of hiding a card, don't let the user interact with the cards yet
         if cardIsHiding { return }
         // change this to your discretion - it represents how far the user must pan up or down to change the option
         let optionLength: CGFloat = 60
@@ -587,8 +590,8 @@ class SwipeViewController: UIViewController  {
             if choice != .nothing {
                 ref.child("users").child(parentUID!).child(choiceToString).observeSingleEvent(of: .value) { [weak self] (snapshot) in
                     guard let self = self else { return }
-                    let uid = self.user!.uid.isEmpty ? "nil" : self.user!.uid
-                    if snapshot.hasChild(uid) || snapshot.hasChild(self.user!.parentUID!) {
+                    let uid = self.user!.uid.isEmpty ? self.uid! : self.user!.uid
+                    if snapshot.hasChild(uid) || snapshot.hasChild(self.uid!) {
                         var properties: [String: String] = [:]
                         switch self.choice {
                         case .love:

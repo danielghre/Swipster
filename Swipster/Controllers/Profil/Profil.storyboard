@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -198,7 +198,7 @@
                                 <fontDescription key="fontDescription" name="BerlinSansFB-Reg" family="Berlin Sans FB" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="location" translatesAutoresizingMaskIntoConstraints="NO" id="ele-ft-1zV">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="locationIcon" translatesAutoresizingMaskIntoConstraints="NO" id="ele-ft-1zV">
                                 <rect key="frame" x="16" y="508" width="46" height="47"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -213,7 +213,7 @@
                     <connections>
                         <outlet property="arrow" destination="IEv-6T-qmj" id="sWy-Dy-up7"/>
                         <outlet property="defaultProfilImage" destination="q5Y-Ql-OHK" id="rRM-PN-qF2"/>
-                        <outlet property="descriptiontextView" destination="Xwp-2t-D0d" id="uJl-ap-XsO"/>
+                        <outlet property="descriptionTextView" destination="Xwp-2t-D0d" id="gzM-93-XjD"/>
                         <outlet property="dismissController" destination="eZN-xk-wki" id="kqi-kd-8Qh"/>
                         <outlet property="fourthProfilImage" destination="0yR-En-RuW" id="kdV-ru-58E"/>
                         <outlet property="location" destination="Fly-eS-9ke" id="0L6-p4-Fqv"/>
@@ -236,6 +236,6 @@
     </scenes>
     <resources>
         <image name="backArrow" width="20" height="16.5"/>
-        <image name="location" width="276" height="276"/>
+        <image name="locationIcon" width="276" height="276"/>
     </resources>
 </document>

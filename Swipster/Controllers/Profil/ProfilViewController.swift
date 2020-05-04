@@ -19,7 +19,7 @@ class ProfilViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet private weak var thirdProfilImage: UIImageView!
     @IBOutlet private weak var fourthProfilImage: UIImageView!
     @IBOutlet private weak var nameAndAgeLabel: UILabel!
-    @IBOutlet private weak var descriptiontextView: UITextView!
+    @IBOutlet private weak var descriptionTextView: UITextView!
     @IBOutlet private weak var arrow: UIImageView!
     @IBOutlet private weak var dismissController: GradientView!
     @IBOutlet private weak var location: UILabel!
@@ -42,10 +42,10 @@ class ProfilViewController: UIViewController, UIGestureRecognizerDelegate {
         if #available(iOS 13.0, *) {
             if traitCollection.userInterfaceStyle == .dark {
                 nameAndAgeLabel.textColor = .white
-                descriptiontextView.textColor = .white
+                descriptionTextView.textColor = .white
             } else {
                 nameAndAgeLabel.textColor = UIColor(rgb: 0x414141)
-                descriptiontextView.textColor = UIColor(rgb: 0x414141)
+                descriptionTextView.textColor = UIColor(rgb: 0x414141)
             }
         }
     }
@@ -95,11 +95,11 @@ class ProfilViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         nameAndAgeLabel.text = "\(user!.first_name), \(calcAge(birthday: user!.birthday)) ans"
         if user!.bio == ""{
-            descriptiontextView.textColor = UIColor.lightGray
-            descriptiontextView.text = "Aucune description..."
-            descriptiontextView.font = UIFont.italicSystemFont(ofSize: 14)
+            descriptionTextView.textColor = UIColor.lightGray
+            descriptionTextView.text = "Aucune description..."
+            descriptionTextView.font = UIFont.italicSystemFont(ofSize: 14)
         } else {
-            descriptiontextView.text = user!.bio
+            descriptionTextView.text = user!.bio
         }
         
         let coordinateUser = CLLocation(latitude: Double(user!.latitude)!, longitude: Double(user!.longitude)!)

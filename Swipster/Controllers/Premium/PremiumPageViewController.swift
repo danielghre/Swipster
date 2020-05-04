@@ -18,7 +18,7 @@ class PremiumPageViewController: UIPageViewController {
     
     var pageHeadings = ["Finis les publicités", "Distinguez vous", "Augmentez vos chances"]
     var pageImages = ["blockAds", "morePics", "distance"]
-    var pageSubHeadings = ["Profitez d'une experience absolue sans être géné par la publicité !", "Vous pourrez ajouter jusqu'à 3 photos supplémentaires à votre profil !", "Aucune limite de distance ne vous arrêtera !"]
+    var pageSubHeadings = ["Profitez d'une experience absolue sans être gêné par la publicité !", "Vous pourrez ajouter jusqu'à 3 photos supplémentaires à votre profil !", "Aucune limite de distance ne vous arrêtera !"]
     
     var currentIndex = 0
     

@@ -6,7 +6,6 @@
 //  Copyright © 2019 Swipster Inc. All rights reserved.
 //
 
-import Foundation
 import Firebase
 import SwiftEntryKit
 import FacebookLogin

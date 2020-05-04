@@ -68,8 +68,8 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
         mailComposerVC.setToRecipients(["contact@swipster.io"])
-        mailComposerVC.setSubject("[" + randomString(length: 6) + "]" + " Feedback de " + user!.first_name)
-        mailComposerVC.setMessageBody("\n\n ---\nN'écrivez pas en dessous de cette ligne.\n\(user!.parentUID ?? "")", isHTML: false)
+        mailComposerVC.setSubject("[\(randomString(length: 6))] Feedback de \(user!.first_name)")
+        mailComposerVC.setMessageBody("\n\n---\nN'écrivez pas en dessous de cette ligne.\n\(Auth.auth().currentUser!.uid)", isHTML: false)
         return mailComposerVC
     }
     
@@ -267,7 +267,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     
     @objc func showRemoveAds() {
         if user?.purchased != true {
-            IAPService.shared.purshase(product: .nonConsumable)
+            IAPService.shared.purchase(product: .nonConsumable)
         } else {
             showPopupMessage(title: "Merci !", buttonTitle: "Compris !", description: "Vous avez déjà supprimer les publicités auparavant, vous pouvez dès à présent profiter à 100% de l'application !", image: #imageLiteral(resourceName: "ic_done_all_light_48pt")) {
                 SwiftEntryKit.dismiss(.all)
@@ -276,7 +276,7 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
     }
     
     @objc func restorePurchased() {
-        IAPService.shared.restorePurshases()
+        IAPService.shared.restorePurchases()
     }
     
     @IBOutlet private weak var shareSection: UIView!
@@ -356,9 +356,9 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
         let rateTheApp = UITapGestureRecognizer(target: self, action: #selector(rate))
         let tuto = UITapGestureRecognizer(target: self, action: #selector(showTuto))
         let removeAds = UITapGestureRecognizer(target: self, action: #selector(showRemoveAds))
-        let retorePurchased = UITapGestureRecognizer(target: self, action: #selector(restorePurchased))
+        let restorePurchase = UITapGestureRecognizer(target: self, action: #selector(restorePurchased))
         
-        let dictView = [shareRecognizer: shareSection, contactRecognizer: contactSection, policyRecognizer: policySection, logoutRecognizer: logoutSection, deleteRecognizer: deleteMyAccountSection, rateTheApp: rateApp, tuto: tutoView, removeAds: removeAdsSection, retorePurchased: restorePurchasedSection]
+        let dictView = [shareRecognizer: shareSection, contactRecognizer: contactSection, policyRecognizer: policySection, logoutRecognizer: logoutSection, deleteRecognizer: deleteMyAccountSection, rateTheApp: rateApp, tuto: tutoView, removeAds: removeAdsSection, restorePurchase: restorePurchasedSection]
         
         for tapGesture in dictView {
             tapGesture.key.numberOfTapsRequired = 1
@@ -394,21 +394,21 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             let impact = UIImpactFeedbackGenerator()
             impact.impactOccurred()
         }
-        var lookingfor = ""
+        var lookingFor = ""
         switch segmentedControl.selectedIndex {
         case 0:
-            lookingfor = "male"
+            lookingFor = "male"
         case 1:
-            lookingfor = "female"
+            lookingFor = "female"
         case 2:
-            lookingfor = "both"
+            lookingFor = "both"
         default:
             break
         }
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let ref = Database.database().reference().child("users").child(uid)
-        let values = ["lookingFor": lookingfor]
+        let values = ["lookingFor": lookingFor]
         ref.updateChildValues(values, withCompletionBlock: { [weak self] (err, ref) in
             if err != nil {
                 print(err ?? "")

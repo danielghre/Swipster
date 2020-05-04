@@ -35,11 +35,11 @@ class IAPService: NSObject {
         paymentQueue.add(self)
     }
     
-    func purshase(product: IAPProduct){
+    func purchase(product: IAPProduct){
         if (SKPaymentQueue.canMakePayments()) {
             showLoadingView(text: "Veuillez patienter...")
-            guard let productToPurshase = products.filter({ $0.productIdentifier == product.rawValue}).first else { return }
-            let payment = SKPayment(product: productToPurshase)
+            guard let productToPurchase = products.filter({ $0.productIdentifier == product.rawValue}).first else { return }
+            let payment = SKPayment(product: productToPurchase)
             paymentQueue.add(payment)
         }else {
             showPopupMessage(title: "Impossible !", buttonTitle: "Compris !", description: "Veuillez autoriser les achats intégrés !", image: #imageLiteral(resourceName: "ic_error_all_light_48pt")) {
@@ -48,7 +48,7 @@ class IAPService: NSObject {
         }
     }
     
-    func restorePurshases() {
+    func restorePurchases() {
         showLoadingView(text: "Veuillez patienter...")
         paymentQueue.restoreCompletedTransactions()
     }
@@ -59,7 +59,7 @@ class IAPService: NSObject {
             let prodID = t.payment.productIdentifier as String
             if prodID == "com.swipsterinc.swipster.removeads" {
                 queue.finishTransaction(t)
-                savePurshased()
+                savePurchased()
                 SwiftEntryKit.dismiss(.all)
                 showPopupMessage(title: "Récupération réussis !", buttonTitle: "Compris !", description: "Vous n'aurez plus de publicité sur l'application",image: #imageLiteral(resourceName: "ic_done_all_light_48pt")) {
                     SwiftEntryKit.dismiss()
@@ -85,7 +85,7 @@ extension IAPService: SKProductsRequestDelegate {
 
 extension IAPService: SKPaymentTransactionObserver {
     
-    func savePurshased(){
+    func savePurchased(){
         let save = UserDefaults.standard
         save.set(true, forKey: "Purchased")
         save.synchronize()
@@ -108,7 +108,7 @@ extension IAPService: SKPaymentTransactionObserver {
         for transaction in transactions{
             switch transaction.transactionState.status() {
             case "purchased":
-                savePurshased()
+                savePurchased()
                 paymentQueue.finishTransaction(transaction)
                 SwiftEntryKit.dismiss(.all)
                 showPopupMessage(title: "Merci !", buttonTitle: "Compris !", description: "Votre achat a bien été effectué !", image: #imageLiteral(resourceName: "ic_done_all_light_48pt")) {
@@ -127,7 +127,7 @@ extension IAPService: SKPaymentTransactionObserver {
                 break
             case "restored":
                 paymentQueue.finishTransaction(transaction)
-                savePurshased()
+                savePurchased()
                 SwiftEntryKit.dismiss(.all)
                 showPopupMessage(title: "Récupération réussis !", buttonTitle: "Compris !", description: "Vous n'aurez plus de publicité sur l'application", image: #imageLiteral(resourceName: "ic_done_all_light_48pt")) {
                     SwiftEntryKit.dismiss()
