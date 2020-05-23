@@ -232,19 +232,17 @@ extension MoreInfosViewController: UIImagePickerControllerDelegate, UINavigation
         guard let image = (info[UIImagePickerController.InfoKey.originalImage] as? UIImage) else { return }
         let cropController = CropViewController(croppingStyle: .circular, image: image)
         cropController.delegate = self
-        if picker.sourceType == .camera {
-            picker.dismiss(animated: true, completion: {
-                self.present(cropController, animated: true, completion: nil)
-            })
-        } else {
-            picker.pushViewController(cropController, animated: true)
-        }
+        picker.pushViewController(cropController, animated: true)
     }
 }
 
 extension MoreInfosViewController: CropViewControllerDelegate {
     public func cropViewController(_ cropViewController: CropViewController, didCropToCircularImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         updateImageViewWithImage(image, fromCropViewController: cropViewController)
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        cropViewController.dismiss(animated: true)
     }
     
     public func updateImageViewWithImage(_ image: UIImage, fromCropViewController cropViewController: CropViewController) {

@@ -698,7 +698,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Swipster/Swipster.entitlements;
-				CURRENT_PROJECT_VERSION = 2611;
+				CURRENT_PROJECT_VERSION = 2613;
 				DEVELOPMENT_TEAM = TH94ESK4DM;
 				INFOPLIST_FILE = "$(SRCROOT)/Swipster/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -706,7 +706,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.8;
+				MARKETING_VERSION = 1.6.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -814,7 +814,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Swipster/Swipster.entitlements;
-				CURRENT_PROJECT_VERSION = 2611;
+				CURRENT_PROJECT_VERSION = 2613;
 				DEVELOPMENT_TEAM = TH94ESK4DM;
 				INFOPLIST_FILE = "$(SRCROOT)/Swipster/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -822,7 +822,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.8;
+				MARKETING_VERSION = 1.6.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -953,7 +953,7 @@
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
+				minimumVersion = 7.0.0;
 			};
 		};
 		7EFE410B234652280069CF96 /* XCRemoteSwiftPackageReference "SwiftEntryKit" */ = {
