@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/facebook/facebook-ios-sdk.git",
         "state": {
           "branch": null,
-          "revision": "ebdfec2c8e7d440909334c7c12846409ee876328",
-          "version": "7.0.0"
+          "revision": "a3ef4451928249e18bb3ae5b7cb906134ed63b26",
+          "version": "7.1.1"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/huri000/SwiftEntryKit.git",
         "state": {
           "branch": null,
-          "revision": "796981500de29ee72f72ef8e9c46eaed2fe6364e",
-          "version": "1.2.3"
+          "revision": "f280a02c60f4c2563561312df26a357a1cf714e2",
+          "version": "1.2.6"
         }
       }
     ]

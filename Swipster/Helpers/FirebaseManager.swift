@@ -32,7 +32,7 @@ func createUser(uid: String, values: [String: Any], completion: @escaping () -> 
     }
 }
 
-func logoutUser(completion: @escaping () -> Void){
+func logoutUser(completion: @escaping () -> Void) {
     LoginManager().logOut()
     let firebaseAuth = Auth.auth()
     do {
@@ -74,4 +74,43 @@ func uploadImageToFirebase(ref: StorageReference, image: UIImage, completion: @e
             
         })
     }
+}
+
+func getFcmToken(){
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let fcmToken = appDelegate.firebaseToken ?? ""
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    let values = ["fcmToken": fcmToken]
+    
+    Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { (err, ref) in
+        if err != nil {
+            print(err ?? "")
+            return
+        }
+    })
+}
+
+func sendPushNotification(notData: [String: Any]) {
+    let url = URL(string: "https://fcm.googleapis.com/fcm/send")!
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.httpBody = try? JSONSerialization.data(withJSONObject:notData, options: [])
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    guard let api_key = ProcessInfo.processInfo.environment["push_key"] else {
+        print("You need to put Firebase api in env variable")
+        return
+    }
+    request.setValue(api_key, forHTTPHeaderField: "Authorization")
+    let task =  URLSession.shared.dataTask(with: request)  { (data, response, error) in
+        do {
+            if let jsonData = data {
+                if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
+                    print("Received data:\n\(jsonDataDict))")
+                }
+            }
+        } catch let err as NSError {
+            print(err.debugDescription)
+        }
+    }
+    task.resume()
 }

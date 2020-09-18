@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "1200"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -47,17 +47,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "F4E9C8F61E013DBC00FD9D7C"
-            BuildableName = "Swipster.app"
-            BlueprintName = "Swipster"
-            ReferencedContainer = "container:Swipster.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -81,13 +70,26 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
+            key = "user_api"
+            value = "Swipster"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "key_api"
+            value = "amisraelhai26D"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
             key = "OS_ACTIVITY_MODE"
             value = "disable"
             isEnabled = "YES">
          </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "push_key"
+            value = "key=AAAANpOP_Uo:APA91bH2QcLQ9d43ZhkEam3GM5dL-TXgLvCPL33TrfHceVfPuoyPj8aYVsdVRpl07EbTa_Uo3d4xhpgjA9gRVdtTg6qyqV5Ddk579QwYXnzNicbuOoyd8vCosECo8T0eFb_E0LO460w0"
+            isEnabled = "YES">
+         </EnvironmentVariable>
       </EnvironmentVariables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

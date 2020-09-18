@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0874656D3967755B6A7B9653 /* Pods_Swipster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2043216AD958612C1920EB01 /* Pods_Swipster.framework */; };
 		7E24C0E32396C45200697CB3 /* AdCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E24C0E22396C45200697CB3 /* AdCardView.swift */; };
 		7E24C0E72396C49600697CB3 /* SwipsterTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E24C0E62396C49600697CB3 /* SwipsterTextField.swift */; };
 		7E24C0E92396C4AD00697CB3 /* PulseLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E24C0E82396C4AD00697CB3 /* PulseLayer.swift */; };
@@ -62,19 +63,19 @@
 		7E787B99240733D70088B9BD /* LoginScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E787B98240733D70088B9BD /* LoginScreen.storyboard */; };
 		7E7A466723DF3241000309E7 /* AppUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7A466623DF3241000309E7 /* AppUpdater.swift */; };
 		7E97A6DA219DECB700AE336D /* BerlinSansFB-DemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E97A6D9219DEC5C00AE336D /* BerlinSansFB-DemiBold.ttf */; };
-		7E98FB8524167BCF009835ED /* DismissFromRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E98FB8424167BCF009835ED /* DismissFromRight.swift */; };
+		7ED7456C25150B35007E7CA5 /* DismissFromRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED7456B25150B35007E7CA5 /* DismissFromRight.swift */; };
 		7ED86C5421C2CF7B0006CC2D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ED86C5321C2CF7B0006CC2D /* StoreKit.framework */; };
 		7EFE410D234652280069CF96 /* SwiftEntryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7EFE410C234652280069CF96 /* SwiftEntryKit */; };
 		F42FA0A51E3B3A5500DB0568 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F42FA0A41E3B3A5500DB0568 /* GoogleService-Info.plist */; };
 		F4E9C8FB1E013DBC00FD9D7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E9C8FA1E013DBC00FD9D7C /* AppDelegate.swift */; };
 		F4E9C9001E013DBC00FD9D7C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E9C8FE1E013DBC00FD9D7C /* Main.storyboard */; };
 		F4E9C9051E013DBC00FD9D7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4E9C9031E013DBC00FD9D7C /* LaunchScreen.storyboard */; };
-		FD2BDA33B6C3DDC0DF08F40D /* Pods_Swipster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CAEA4EEC5725B98B4B7BDF3 /* Pods_Swipster.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1566AE39B92B5BAD2F4F4E46 /* Pods-Swipster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swipster.release.xcconfig"; path = "Target Support Files/Pods-Swipster/Pods-Swipster.release.xcconfig"; sourceTree = "<group>"; };
-		253E7D1B0A0C1514692F3DB3 /* Pods-Swipster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swipster.debug.xcconfig"; path = "Target Support Files/Pods-Swipster/Pods-Swipster.debug.xcconfig"; sourceTree = "<group>"; };
+		2043216AD958612C1920EB01 /* Pods_Swipster.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Swipster.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C2C51281CBDE39A6B3493C0 /* Pods-Swipster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swipster.release.xcconfig"; path = "Target Support Files/Pods-Swipster/Pods-Swipster.release.xcconfig"; sourceTree = "<group>"; };
+		6716A0FC0FD0DC141CBCFB9A /* Pods-Swipster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Swipster.debug.xcconfig"; path = "Target Support Files/Pods-Swipster/Pods-Swipster.debug.xcconfig"; sourceTree = "<group>"; };
 		7E24C0E22396C45200697CB3 /* AdCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AdCardView.swift; path = Views/AdCardView.swift; sourceTree = "<group>"; };
 		7E24C0E62396C49600697CB3 /* SwipsterTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwipsterTextField.swift; path = Views/SwipsterTextField.swift; sourceTree = "<group>"; };
 		7E24C0E82396C4AD00697CB3 /* PulseLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PulseLayer.swift; path = Views/PulseLayer.swift; sourceTree = "<group>"; };
@@ -130,11 +131,10 @@
 		7E7A466623DF3241000309E7 /* AppUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppUpdater.swift; path = Helpers/AppUpdater.swift; sourceTree = "<group>"; };
 		7E97550020AF49CE00DDC35A /* Swipster.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Swipster.entitlements; sourceTree = "<group>"; };
 		7E97A6D9219DEC5C00AE336D /* BerlinSansFB-DemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BerlinSansFB-DemiBold.ttf"; path = "fonts/BerlinSansFB-DemiBold.ttf"; sourceTree = "<group>"; };
-		7E98FB8424167BCF009835ED /* DismissFromRight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissFromRight.swift; sourceTree = "<group>"; };
 		7E9FCBFA207172610083808B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		7E9FCBFB207172610083808B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		7ED7456B25150B35007E7CA5 /* DismissFromRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DismissFromRight.swift; path = Segue/DismissFromRight.swift; sourceTree = "<group>"; };
 		7ED86C5321C2CF7B0006CC2D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		8CAEA4EEC5725B98B4B7BDF3 /* Pods_Swipster.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Swipster.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F42FA0A41E3B3A5500DB0568 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F4E9C8F71E013DBC00FD9D7C /* Swipster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swipster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4E9C8FA1E013DBC00FD9D7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 				7E4D0D15237D951B00189484 /* FacebookCore in Frameworks */,
 				7EFE410D234652280069CF96 /* SwiftEntryKit in Frameworks */,
 				7ED86C5421C2CF7B0006CC2D /* StoreKit.framework in Frameworks */,
-				FD2BDA33B6C3DDC0DF08F40D /* Pods_Swipster.framework in Frameworks */,
+				0874656D3967755B6A7B9653 /* Pods_Swipster.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,7 +212,7 @@
 			children = (
 				7E430919220CFEC800B42704 /* SlideFromLeft.swift */,
 				7E430918220CFEC800B42704 /* SlideFromRight.swift */,
-				7E98FB8424167BCF009835ED /* DismissFromRight.swift */,
+				7ED7456B25150B35007E7CA5 /* DismissFromRight.swift */,
 			);
 			name = Segue;
 			sourceTree = "<group>";
@@ -307,7 +307,7 @@
 			children = (
 				7E31EB36238E15A70040E19F /* CryptoTokenKit.framework */,
 				7ED86C5321C2CF7B0006CC2D /* StoreKit.framework */,
-				8CAEA4EEC5725B98B4B7BDF3 /* Pods_Swipster.framework */,
+				2043216AD958612C1920EB01 /* Pods_Swipster.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -353,8 +353,8 @@
 		FE331500A8836753CC3CF176 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				253E7D1B0A0C1514692F3DB3 /* Pods-Swipster.debug.xcconfig */,
-				1566AE39B92B5BAD2F4F4E46 /* Pods-Swipster.release.xcconfig */,
+				6716A0FC0FD0DC141CBCFB9A /* Pods-Swipster.debug.xcconfig */,
+				4C2C51281CBDE39A6B3493C0 /* Pods-Swipster.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -366,11 +366,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4E9C9091E013DBC00FD9D7C /* Build configuration list for PBXNativeTarget "Swipster" */;
 			buildPhases = (
-				7A8EEC9C65F219B823867F54 /* [CP] Check Pods Manifest.lock */,
+				5EA59F16EFA3EF61C3DC3340 /* [CP] Check Pods Manifest.lock */,
 				F4E9C8F31E013DBC00FD9D7C /* Sources */,
 				F4E9C8F41E013DBC00FD9D7C /* Frameworks */,
 				F4E9C8F51E013DBC00FD9D7C /* Resources */,
-				99F06CAE950246389DDFEDD1 /* [CP] Embed Pods Frameworks */,
+				C5D9542D7E5BA4F70D6EC3C8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -393,7 +393,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Swipster Inc.";
 				TargetAttributes = {
 					F4E9C8F61E013DBC00FD9D7C = {
@@ -467,7 +467,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7A8EEC9C65F219B823867F54 /* [CP] Check Pods Manifest.lock */ = {
+		5EA59F16EFA3EF61C3DC3340 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -489,7 +489,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		99F06CAE950246389DDFEDD1 /* [CP] Embed Pods Frameworks */ = {
+		C5D9542D7E5BA4F70D6EC3C8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -536,7 +536,7 @@
 				7E553605220CFDAB0074E912 /* EmptyCell.swift in Sources */,
 				7E787B97240733640088B9BD /* ViewController.swift in Sources */,
 				7E5535D0220CFCC70074E912 /* ChatLogController.swift in Sources */,
-				7E98FB8524167BCF009835ED /* DismissFromRight.swift in Sources */,
+				7ED7456C25150B35007E7CA5 /* DismissFromRight.swift in Sources */,
 				7E5535EA220CFD490074E912 /* PremiumViewController.swift in Sources */,
 				7E43090E220CFE7200B42704 /* Extensions.swift in Sources */,
 				7E55360C220CFDAB0074E912 /* EmojiOptionsOverlay.swift in Sources */,
@@ -605,6 +605,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -629,7 +630,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -664,6 +665,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -682,7 +684,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -694,14 +696,15 @@
 		};
 		F4E9C90A1E013DBC00FD9D7C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 253E7D1B0A0C1514692F3DB3 /* Pods-Swipster.debug.xcconfig */;
+			baseConfigurationReference = 6716A0FC0FD0DC141CBCFB9A /* Pods-Swipster.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Swipster/Swipster.entitlements;
 				CURRENT_PROJECT_VERSION = 2613;
 				DEVELOPMENT_TEAM = TH94ESK4DM;
+				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Swipster/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -756,8 +759,6 @@
 					"\"GoogleAppMeasurement\"",
 					"-framework",
 					"\"GoogleDataTransport\"",
-					"-framework",
-					"\"GoogleDataTransportCCTSupport\"",
 					"-framework",
 					"\"GoogleMobileAds\"",
 					"-framework",
@@ -810,14 +811,15 @@
 		};
 		F4E9C90B1E013DBC00FD9D7C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1566AE39B92B5BAD2F4F4E46 /* Pods-Swipster.release.xcconfig */;
+			baseConfigurationReference = 4C2C51281CBDE39A6B3493C0 /* Pods-Swipster.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Swipster/Swipster.entitlements;
 				CURRENT_PROJECT_VERSION = 2613;
 				DEVELOPMENT_TEAM = TH94ESK4DM;
+				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Swipster/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -872,8 +874,6 @@
 					"\"GoogleAppMeasurement\"",
 					"-framework",
 					"\"GoogleDataTransport\"",
-					"-framework",
-					"\"GoogleDataTransportCCTSupport\"",
 					"-framework",
 					"\"GoogleMobileAds\"",
 					"-framework",

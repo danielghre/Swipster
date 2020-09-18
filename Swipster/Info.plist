@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Cet identifiant sera utilisé pour vous proposer des publicités personnalisées.</string>
 	<key>AppLovinSdkKey</key>
 	<string>ZD8PN8QRqzCHPwXDzBirDURKAgbKdWF56vTzeAm0cvQA8MpdcB55alRXBsuSc9fLJ-XwmakRDp3dzI8babT24P</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -60,13 +62,13 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(EXECUTABLE_NAME) a besoin d'accéder à votre caméra afin de changer votre photo de profil ou de l'envoyer dans le chat.</string>
+	<string>$(EXECUTABLE_NAME) a besoin d&apos;accéder à votre caméra afin de changer votre photo de profil ou de l&apos;envoyer dans le chat.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Votre localisation est requise pour vous présenter les profils proches de vous.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>$(EXECUTABLE_NAME) a besoin d'accéder à votre micro afin d'enregistrer le son de la vidéo.</string>
+	<string>$(EXECUTABLE_NAME) a besoin d&apos;accéder à votre micro afin d&apos;enregistrer le son de la vidéo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(EXECUTABLE_NAME) a besoin d'accéder à votre Pellicule afin de changer votre photo de profil ou de l'envoyer dans le chat.</string>
+	<string>$(EXECUTABLE_NAME) a besoin d&apos;accéder à votre Pellicule afin de changer votre photo de profil ou de l&apos;envoyer dans le chat.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>BerlinSansFB-DemiBold.ttf</string>

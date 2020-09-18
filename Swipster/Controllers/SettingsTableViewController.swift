@@ -211,10 +211,10 @@ class SettingsTableViewController: UITableViewController, UIImagePickerControlle
             }
         }
 
-        let pinkyColor = EKColor(UIColor.cancelRed.withAlphaComponent(0.05))
-        let okButtonLabelStyle = EKProperty.LabelStyle(font: font, color: EKColor(UIColor.cancelRed))
+        let blueColor = EKColor(UIColor.systemBlue.withAlphaComponent(0.05))
+        let okButtonLabelStyle = EKProperty.LabelStyle(font: font, color: EKColor(.systemBlue))
         let okButtonLabel = EKProperty.LabelContent(text: "Laisser un avis", style: okButtonLabelStyle)
-        let okButton = EKProperty.ButtonContent(label: okButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  pinkyColor) { [weak self] in
+        let okButton = EKProperty.ButtonContent(label: okButtonLabel, backgroundColor: .clear, highlightedBackgroundColor:  blueColor) { [weak self] in
             SwiftEntryKit.dismiss()
             self?.rateApp(appId: "1444964003")
         }

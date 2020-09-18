@@ -3,7 +3,7 @@
 //  Swipster
 //
 //  Created by Daniel Ghrenassia on 02/01/2019.
-//  Copyright © 2019 Swipster Inc. All rights reserved.
+//  Copyright © 2019 SwipSter Inc. All rights reserved.
 //
 
 import SwiftEntryKit
@@ -20,15 +20,24 @@ public enum choiceDone: String {
 
 func sendEmail(subject: String, text: String, user: User, fromName: String, completion: @escaping () -> Void) {
     let textToSend = "<html><div>\(text)<br><p>Nom d'utilisateur: \(user.first_name)<br>Id: \(user.parentUID ?? "UID not found")<br>\(user.email)</p><p>Envoyé le \(Date().toString()) par \(fromName)<br>Id: \(Auth.auth().currentUser!.uid)</div></html>"
+    guard let api_user = ProcessInfo.processInfo.environment["user_api"] else {
+        print("You need to put sendgrid api username as env variable")
+        return
+    }
+    guard let api_key = ProcessInfo.processInfo.environment["key_api"] else {
+        print("You need to put sendgrid api password as env variable")
+        return
+    }
     let params = [
-        "api_user": "Swipster",
-        "api_key": "amisraelhai26D",
+        "api_user": api_user,
+        "api_key": api_key,
         "to": "contact@swipster.io",
         "toname": "Signal Swipster",
         "subject": subject,
         "html": textToSend,
         "from": "signal@swipster.io"
     ]
+    print(params)
     var parts: [String] = []
     for (k, v) in params {
         let key = String(describing: k).addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
@@ -244,20 +253,6 @@ func showCenterAlertView(title: String, message: String, okButton: String, cance
     SwiftEntryKit.display(entry: contentView, using: attributes)
 }
 
-func getFcmToken(){
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let fcmToken = appDelegate.firebaseToken ?? ""
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    let values = ["fcmToken": fcmToken]
-    
-    Database.database().reference().child("users").child(uid).updateChildValues(values, withCompletionBlock: { (err, ref) in
-        if err != nil {
-            print(err ?? "")
-            return
-        }
-    })
-}
-
 func calcAge(birthday: String) -> Int {
     let dateFormater = DateFormatter()
     dateFormater.dateFormat = "MM/dd/yyyy"
@@ -267,27 +262,6 @@ func calcAge(birthday: String) -> Int {
     let calcAge = calendar.components(.year, from: birthdayDate!, to: now, options: [])
     let age = calcAge.year
     return age!
-}
-
-func sendPushNotification(notData: [String: Any]) {
-    let url = URL(string: "https://fcm.googleapis.com/fcm/send")!
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    request.httpBody = try? JSONSerialization.data(withJSONObject:notData, options: [])
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.setValue("key=AAAANpOP_Uo:APA91bH2QcLQ9d43ZhkEam3GM5dL-TXgLvCPL33TrfHceVfPuoyPj8aYVsdVRpl07EbTa_Uo3d4xhpgjA9gRVdtTg6qyqV5Ddk579QwYXnzNicbuOoyd8vCosECo8T0eFb_E0LO460w0", forHTTPHeaderField: "Authorization")
-    let task =  URLSession.shared.dataTask(with: request)  { (data, response, error) in
-        do {
-            if let jsonData = data {
-                if let jsonDataDict  = try JSONSerialization.jsonObject(with: jsonData, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: AnyObject] {
-                    print("Received data:\n\(jsonDataDict))")
-                }
-            }
-        } catch let err as NSError {
-            print(err.debugDescription)
-        }
-    }
-    task.resume()
 }
 
 func checkLibraryPermission(completion: @escaping () -> Void) {

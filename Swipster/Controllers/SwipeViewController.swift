@@ -9,6 +9,8 @@
 import CoreLocation
 import Firebase
 import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 import SwiftEntryKit
 
 class SwipeViewController: UIViewController  {
@@ -133,6 +135,16 @@ class SwipeViewController: UIViewController  {
         }
     }
     
+    func requestIDFA() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { [weak self] status in
+                self?.configureNativeAd()
+            })
+        } else {
+            configureNativeAd()
+        }
+    }
+    
     func configureNativeAd() {
         if !hideAds() {
 //            let adUnitID = "ca-app-pub-3940256099942544/8407707713"
@@ -253,7 +265,7 @@ class SwipeViewController: UIViewController  {
                     self.layoutCards()
                 }
                 if self.cards.count > 5 {
-                    self.configureNativeAd()
+                    self.requestIDFA()
                 }
             }
         }
