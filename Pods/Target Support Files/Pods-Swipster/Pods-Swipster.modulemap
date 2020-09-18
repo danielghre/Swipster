@@ -1,6 +1,0 @@
-framework module Pods_Swipster {
-  umbrella header "Pods-Swipster-umbrella.h"
-
-  export *
-  module * { export * }
-}
