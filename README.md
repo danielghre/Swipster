@@ -6,6 +6,8 @@
 
 ## 3. Set up Firebase Realtime Database & download Google .plist
 
-## 4. Set up Sendgrid & Firebase API Keys as env variables
+## 4. Set up APNS
+
+## 5. Set up Sendgrid & Firebase API Keys as env variables
 
 Contact us if needed.
